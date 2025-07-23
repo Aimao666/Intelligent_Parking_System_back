@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="User.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="CThreadPool.cpp" />
+    <ClCompile Include="IPCManager.cpp" />
+    <ClCompile Include="CBaseTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoginTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskFactory.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="OperationFactory.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="UserOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnection.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CBaseOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="User.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="CThreadPool.h" />
+    <ClInclude Include="IPCManager.h" />
+    <ClInclude Include="protocol.h" />
+    <ClInclude Include="CBaseTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoginTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskFactory.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationFactory.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="UserOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnection.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CBaseOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="poco">
+      <UniqueIdentifier>{bc8def6c-e609-4d90-a743-5f8a4e4b5b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="task">
+      <UniqueIdentifier>{a612307f-0731-4657-8dc7-6cf881733986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{2813eb75-0661-4c7f-9795-5f17c6b2cf80}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
