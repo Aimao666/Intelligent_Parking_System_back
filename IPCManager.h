@@ -6,6 +6,7 @@
 #include <sys/msg.h>
 #include <iostream>
 #include <pthread.h>
+#include <string.h>
 using namespace std;
 class IPCManager
 {
@@ -44,6 +45,9 @@ public:
 	void sem_p(int semid, int sem_index);
 	//信号量V操作 +1 参数semid:对应信号量id 参数sem_index:你要做-1操作的信号量数组下标元素
 	void sem_v(int semid, int sem_index);
+
+	//数据写入到共享内存,mtype表示消息队列消息类型,1表示从前置到后置，2表示从后置到前置
+	int saveData(char* data, size_t len, int mtype);
 
 	int getNums_sems()const;
 

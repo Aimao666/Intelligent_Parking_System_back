@@ -1,6 +1,9 @@
 #pragma once
 #include "CBaseTask.h"
-#include "OperationFactory.h"
+#include "OperationFactory.h"      
+#include <sys/stat.h>
+#include <sys/types.h>
+
 class RegisterTask :
     public CBaseTask
 {

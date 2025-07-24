@@ -26,13 +26,33 @@ void RegisterTask::work()
 	//数据库查询
 	CBaseOperation* userop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::USER);
 	User* user = new User(request.account,"e10adc3949ba59abbe56e057f20f883e");
-	
+
+	//准备好报文发给前置服务器，只有前置服务器才有网，才能发给客户端
+	HEAD headBack;
+	CommonBack bodyBack;
+	headBack.bussinessType = 6;
+	headBack.bussinessLength = sizeof(CommonBack);
+	headBack.crc = this->clientFd;
 	int res = userop->doInsert(user);
 	if (res > 0) {
-		cout << "注册成功" << endl;
+		bodyBack.flag = 1;
+		sprintf(bodyBack.message, "用户%s注册成功", request.account);
+		//注册成功则创建一个该用户文件夹
+		string dirPath = "/root/projects/AppData/Intelligent_Parking_System/data/" + string(request.account);
+		int res = mkdir(dirPath.c_str(), 0777);
+		if (res == 0) {
+			cout << "创建目录成功:" << dirPath << endl;
+		}
+		else if (res == -1) {
+			perror("mkdir err");
+		}
 	}
 	else {
 		//账号已存在无法注册
-		cout << "注册失败" << endl;
+		bodyBack.flag = 0;
+		sprintf(bodyBack.message, "用户%s注册失败", request.account);
 	}
+	cout << bodyBack.message << endl;
+	//数据存放共享内存
+	IPCManager::getInstance()->saveData(this->taskData, this->dataLen, 2);
 }

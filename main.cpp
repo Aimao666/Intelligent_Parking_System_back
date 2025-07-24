@@ -19,7 +19,6 @@ int main()
         cout << "ipc分配失败" << endl;
         return 0;
     }
-    cout << "shmid=" << shmid << "getShmid()" << ipc->getShmid() << endl;
     void* shmaddr = shmat(shmid, NULL, 0);//用于接收共享内存块起始地址
     if (shmaddr == (void*)-1) {
         perror("shmat 失败");
@@ -48,7 +47,7 @@ int main()
 
         ipc->sem_p(semid, index);
         memcpy(indexArr, shmaddr, sizeof(indexArr));
-        //判断目标区域是否真的可读:0可写，1可读
+        //判断目标区域是否真的可读:0可写，1后置可读,2前置可读
         if (indexArr[index] == 1) {
             cout << "目标区域可读" << endl;
             //拷贝数据
@@ -57,7 +56,7 @@ int main()
             HEAD head;
             memcpy(&head, shmBuffer, sizeof(HEAD));
             int bodyLen = head.bussinessLength;
-            auto task = CTaskFactory::getInstance()->createTask(0, head.bussinessType, shmBuffer, sizeof(HEAD) + head.bussinessLength);
+            auto task = CTaskFactory::getInstance()->createTask(head.crc, head.bussinessType, shmBuffer, sizeof(HEAD) + head.bussinessLength);
             //任务给到线程池
             pool->pushTask(move(task));
         }

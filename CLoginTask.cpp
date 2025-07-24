@@ -18,20 +18,30 @@ void CLoginTask::work()
 	}
 	//数据解析
 	HEAD head;
-	LoginRequest loginRequest;
+	LoginRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
-	memcpy(&loginRequest, taskData + sizeof(HEAD), head.bussinessLength);
-	cout << "登录请求-账号:" << loginRequest.account << "	密码:" << loginRequest.password << endl;
+	memcpy(&request, taskData + sizeof(HEAD), head.bussinessLength);
+	cout << "登录请求-账号:" << request.account << "	密码:" << request.password << endl;
 	
 	//数据库查询
 	CBaseOperation* userop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::USER);
 	unique_ptr<vector<unique_ptr<User>>>vec = userop->query<User>("select * from " + userop->getTablename() + " where account = '" +
-		loginRequest.account + "' and `password` = '" + loginRequest.password + "';");
+		request.account + "' and `password` = '" + request.password + "';");
+	//准备好报文发给前置服务器，只有前置服务器才有网，才能发给客户端
+	HEAD headBack;
+	CommonBack bodyBack;
+	headBack.bussinessType = 2;
+	headBack.bussinessLength = sizeof(CommonBack);
+	headBack.crc = this->clientFd;
 	if (vec != nullptr && vec->size() > 0) {
-		cout << "登陆成功" << endl;
+		bodyBack.flag = 1;
+		sprintf(bodyBack.message, "用户%s登录成功", request.account);
 	}
 	else {
-		cout << "登陆失败" << endl;
+		bodyBack.flag = 0;
+		sprintf(bodyBack.message, "用户%s登录失败", request.account);
 	}
-	
+	cout << bodyBack.message << endl;
+	//数据存放共享内存
+	IPCManager::getInstance()->saveData(this->taskData, this->dataLen, 2);
 }

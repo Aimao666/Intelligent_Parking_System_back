@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <iostream>
 #include "protocol.h"
+#include "IPCManager.h"
 using namespace std;
 class CBaseTask
 {
@@ -10,6 +11,7 @@ public:
 	CBaseTask(int fd, char* data, size_t len);
 	virtual~CBaseTask();
 	virtual void work()=0;
+	
 
 	int getClientFd() const;
 
