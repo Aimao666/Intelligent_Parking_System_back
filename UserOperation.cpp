@@ -81,7 +81,7 @@ void UserOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object) {
 int UserOperation::doInsert(void* object)
 {
     User* ptr = (User*)object;
-    string sql = "insert into " + tablename + " (account,password,username) values (?,?,?)";
+    string sql = "insert into " + tablename + " (`account`,`password`,`username`) values (?,?,?)";
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(1, ptr->getAccount());
     pstmt->setString(2, ptr->getPassword());
@@ -108,7 +108,7 @@ int UserOperation::doInsert(void* object)
 int UserOperation::doUpdate(void* object)
 {
     User* ptr = (User*)object;
-    string sql = "update " + tablename + " set password=?,username=? where account=?";
+    string sql = "update " + tablename + " set `password`=?,`username`=? where `account`=?";
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(3, ptr->getAccount());
     pstmt->setString(1, ptr->getPassword());

@@ -18,11 +18,11 @@ DBConnection::DBConnection()
     pthread_mutex_init(&mutex, NULL);
     //获取驱动单例
     this->driver = sql::mysql::get_driver_instance();
-    this->path = "tcp://" + localhost + ":" + localport;
+    this->path = "tcp://" + localhost + ":" + localport+"?useUnicode=true&characterEncoding=UTF-8";
     cout << "path=" << path << endl;
     //创建一个连接
 	//‌带参数调用‌：释放旧资源并管理新指针。
-    conn.reset(driver->connect(path, localuser, localpassword));
+    this->conn.reset(driver->connect(path, localuser, localpassword));
     //设置连接数据库
     this->conn->setSchema(localschema);
 

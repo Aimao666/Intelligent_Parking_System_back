@@ -13,9 +13,6 @@
     <ClCompile Include="CLoginTask.cpp">
       <Filter>task</Filter>
     </ClCompile>
-    <ClCompile Include="CTaskFactory.cpp">
-      <Filter>task</Filter>
-    </ClCompile>
     <ClCompile Include="OperationFactory.cpp">
       <Filter>Model</Filter>
     </ClCompile>
@@ -27,6 +24,12 @@
     </ClCompile>
     <ClCompile Include="CBaseOperation.cpp">
       <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskFactory.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="RegisterTask.cpp">
+      <Filter>task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="CBaseOperation.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="RegisterTask.h">
+      <Filter>task</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

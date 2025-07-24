@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <memory>
 #include "CLoginTask.h"
+#include "RegisterTask.h"
 using namespace std;
 class CTaskFactory
 {

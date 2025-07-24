@@ -84,6 +84,7 @@
     <ClCompile Include="IPCManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OperationFactory.cpp" />
+    <ClCompile Include="RegisterTask.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserOperation.cpp" />
   </ItemGroup>
@@ -97,6 +98,7 @@
     <ClInclude Include="IPCManager.h" />
     <ClInclude Include="OperationFactory.h" />
     <ClInclude Include="protocol.h" />
+    <ClInclude Include="RegisterTask.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserOperation.h" />
   </ItemGroup>

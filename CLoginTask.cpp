@@ -25,8 +25,8 @@ void CLoginTask::work()
 	
 	//数据库查询
 	CBaseOperation* userop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::USER);
-	unique_ptr<vector<unique_ptr<User>>>vec = userop->query<User>("select * from " + userop->getTablename() + " where account = `" +
-		loginRequest.account + "` and password = `" + loginRequest.password + "`;");
+	unique_ptr<vector<unique_ptr<User>>>vec = userop->query<User>("select * from " + userop->getTablename() + " where account = '" +
+		loginRequest.account + "' and `password` = '" + loginRequest.password + "';");
 	if (vec != nullptr && vec->size() > 0) {
 		cout << "登陆成功" << endl;
 	}
