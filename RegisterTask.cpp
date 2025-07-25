@@ -53,6 +53,10 @@ void RegisterTask::work()
 		sprintf(bodyBack.message, "用户%s注册失败", request.account);
 	}
 	cout << bodyBack.message << endl;
+	//准备数据缓冲区
+	char buffer[sizeof(HEAD) + sizeof(bodyBack)];
+	memcpy(buffer, &headBack, sizeof(HEAD));
+	memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
 	//数据存放共享内存
-	IPCManager::getInstance()->saveData(this->taskData, this->dataLen, 2);
+	IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
 }

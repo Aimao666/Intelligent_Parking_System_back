@@ -78,6 +78,7 @@
     <ClCompile Include="CBaseOperation.cpp" />
     <ClCompile Include="CBaseTask.cpp" />
     <ClCompile Include="CLoginTask.cpp" />
+    <ClCompile Include="CReadShmTask.cpp" />
     <ClCompile Include="CTaskFactory.cpp" />
     <ClCompile Include="CThreadPool.cpp" />
     <ClCompile Include="DBConnection.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="CBaseOperation.h" />
     <ClInclude Include="CBaseTask.h" />
     <ClInclude Include="CLoginTask.h" />
+    <ClInclude Include="CReadShmTask.h" />
     <ClInclude Include="CTaskFactory.h" />
     <ClInclude Include="CThreadPool.h" />
     <ClInclude Include="DBConnection.h" />

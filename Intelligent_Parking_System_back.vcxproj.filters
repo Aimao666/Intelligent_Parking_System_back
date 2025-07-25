@@ -31,6 +31,9 @@
     <ClCompile Include="RegisterTask.cpp">
       <Filter>task</Filter>
     </ClCompile>
+    <ClCompile Include="CReadShmTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -61,6 +64,9 @@
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="RegisterTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CReadShmTask.h">
       <Filter>task</Filter>
     </ClInclude>
   </ItemGroup>
