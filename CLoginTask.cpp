@@ -5,10 +5,6 @@ CLoginTask::CLoginTask(int fd, char* data, size_t len)
 {
 }
 
-CLoginTask::~CLoginTask()
-{
-}
-
 void CLoginTask::work()
 {
 	cout << this->taskData << "正在执行" << endl;

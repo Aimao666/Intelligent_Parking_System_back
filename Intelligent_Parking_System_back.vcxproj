@@ -77,14 +77,21 @@
   <ItemGroup>
     <ClCompile Include="CBaseOperation.cpp" />
     <ClCompile Include="CBaseTask.cpp" />
+    <ClCompile Include="CFileCheckTask.cpp" />
+    <ClCompile Include="CFileUploadTask.cpp" />
     <ClCompile Include="CLoginTask.cpp" />
     <ClCompile Include="CReadShmTask.cpp" />
     <ClCompile Include="CTaskFactory.cpp" />
     <ClCompile Include="CThreadPool.cpp" />
+    <ClCompile Include="CTools.cpp" />
+    <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DBConnection.cpp" />
+    <ClCompile Include="FileInfo.cpp" />
     <ClCompile Include="IPCManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OperationFactory.cpp" />
+    <ClCompile Include="Picture.cpp" />
+    <ClCompile Include="PictureOperation.cpp" />
     <ClCompile Include="RegisterTask.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserOperation.cpp" />
@@ -92,13 +99,20 @@
   <ItemGroup>
     <ClInclude Include="CBaseOperation.h" />
     <ClInclude Include="CBaseTask.h" />
+    <ClInclude Include="CFileCheckTask.h" />
+    <ClInclude Include="CFileUploadTask.h" />
     <ClInclude Include="CLoginTask.h" />
     <ClInclude Include="CReadShmTask.h" />
     <ClInclude Include="CTaskFactory.h" />
     <ClInclude Include="CThreadPool.h" />
+    <ClInclude Include="CTools.h" />
+    <ClInclude Include="DataManager.h" />
     <ClInclude Include="DBConnection.h" />
+    <ClInclude Include="FileInfo.h" />
     <ClInclude Include="IPCManager.h" />
     <ClInclude Include="OperationFactory.h" />
+    <ClInclude Include="Picture.h" />
+    <ClInclude Include="PictureOperation.h" />
     <ClInclude Include="protocol.h" />
     <ClInclude Include="RegisterTask.h" />
     <ClInclude Include="User.h" />

@@ -4,11 +4,13 @@
 #include <memory>
 #include "CLoginTask.h"
 #include "RegisterTask.h"
+#include "CFileCheckTask.h"
+#include "CFileUploadTask.h"
 using namespace std;
 class CTaskFactory
 {
 public:
-	~CTaskFactory();
+	~CTaskFactory() = default;
 	static CTaskFactory* getInstance();
 	unique_ptr<CBaseTask> createTask(int clientFd, int bussinessType, char* data, size_t length);
 private:

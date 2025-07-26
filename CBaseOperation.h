@@ -8,7 +8,7 @@
 class CBaseOperation {
 public:
     CBaseOperation();
-    virtual ~CBaseOperation();
+    virtual ~CBaseOperation() = default;
 
     // 通用查询模板方法
     //查询到或者没查到都会返回容器智能指针，但是如果报了SQLException则返回nullptr
@@ -48,8 +48,12 @@ public:
     // 其他通用操作接口
     virtual int doInsert(void* pocoPtr) = 0;
     virtual int doUpdate(void* pocoPtr) = 0;
-    virtual int doDelete(const std::string& whereSql = "") = 0;
 
+    //实现的基本的DML操作，不对传入的sql进行任何校验，直接执行，返回受影响的行数
+    virtual int executeUpdate(string sql);
+    virtual int doDelete(const std::string& whereSql = "");//应传入where子句
+
+    //getter
     std::string getTablename() const;
 
 protected:

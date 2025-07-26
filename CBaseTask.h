@@ -4,6 +4,9 @@
 #include <iostream>
 #include "protocol.h"
 #include "IPCManager.h"
+#include "CTools.h"
+#include "DataManager.h"
+#include "OperationFactory.h"
 using namespace std;
 class CBaseTask
 {

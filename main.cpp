@@ -5,8 +5,10 @@
 #include <string.h>
 #include "CTaskFactory.h"
 #include "CReadShmTask.h"
+#include "DataManager.h"
 int main()
 {
+    pthread_mutex_init(&DataManager::allFileMapMutex,NULL);
     CThreadPool* pool = new CThreadPool();
     IPCManager* ipc = IPCManager::getInstance();
     cout << "sizeof(IPCManager)=" << sizeof(IPCManager) << endl;//36，只计入非静态成员变量的大小，所有函数都不计入

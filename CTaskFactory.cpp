@@ -1,9 +1,6 @@
 #include "CTaskFactory.h"
 CTaskFactory* CTaskFactory::instance = nullptr;
 pthread_mutex_t CTaskFactory::mutex;
-CTaskFactory::~CTaskFactory()
-{
-}
 
 CTaskFactory* CTaskFactory::getInstance()
 {
@@ -28,6 +25,16 @@ unique_ptr<CBaseTask> CTaskFactory::createTask(int clientFd, int bussinessType, 
 	case 5://注册
 	{
 		unique_ptr<RegisterTask> task(new RegisterTask(clientFd, data, length));
+		return task;
+	}
+	case 23://文件上传单个碎片包
+	{
+		unique_ptr<CFileUploadTask> task(new CFileUploadTask(clientFd, data, length));
+		return task;
+	}
+	case 25://文件上传确认包
+	{
+		unique_ptr<CFileCheckTask> task(new CFileCheckTask(clientFd, data, length));
 		return task;
 	}
 	default:

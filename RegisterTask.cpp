@@ -5,10 +5,6 @@ RegisterTask::RegisterTask(int fd, char* data, size_t len)
 {
 }
 
-RegisterTask::~RegisterTask()
-{
-}
-
 void RegisterTask::work()
 {
 	cout << this->taskData << "正在执行" << endl;
@@ -38,9 +34,9 @@ void RegisterTask::work()
 		bodyBack.flag = 1;
 		sprintf(bodyBack.message, "用户%s注册成功", request.account);
 		//注册成功则创建一个该用户文件夹
-		string dirPath = "/root/projects/AppData/Intelligent_Parking_System/data/" + string(request.account);
-		int res = mkdir(dirPath.c_str(), 0777);
-		if (res == 0) {
+		string dirPath = DataManager::basePath + string(request.account)+"/pictures/";
+		//!!!mkdir只能够创建单级目录，不能创建多级目录，因此最好的选择时递归创建
+		if (CTools::createDirectoryRecursive(dirPath)) {
 			cout << "创建目录成功:" << dirPath << endl;
 		}
 		else if (res == -1) {

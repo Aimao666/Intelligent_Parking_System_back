@@ -181,22 +181,27 @@ typedef struct ParkingInfoBack {
 
 
 //文件上传请求体 23
-typedef struct FileInfo {
+typedef struct FileInfoRequest {
 	char account[12];//用户账号,服务器要用这个字段来区分不同用户的数据
 	char filename[40];//图片名称
 	int totalNumber;//原文件碎片总个数
 	int totalLength;//原文件总字节数
+
+	int type;//图片类型 1入场 2出场 3 监控截图 4视频首帧
+	char createtime[24];//图片创建时间
+	char khdPath[80];//客户端图片路径
+
 	int fileIndex;//当前碎片的序号，从1开始
 	int fileLength;//当前碎片的有效字节数
 	char context[1000];//文件二进制内容
-}FileInfo;
+}FileInfoRequest;
 //文件碎片发送完成以后，客户端还要发送一个确认发送完成请求包 25
-typedef struct FileCheck
+typedef struct FileCheckRequest
 {
 	char account[12]; //文件归属账号
 	char filename[40]; //文件名称
 	int flag;
-}FileCheck;
+}FileCheckRequest;
 //服务器如果收到这个文件确认包，验证自己收到所有该文件请求缓存数据是否符合文件碎片数量，序号是否都有，如果有缺失就将
 //碎片文件包没有收全  服 -> 客
 //服务器返回24
@@ -206,8 +211,8 @@ typedef struct FileBack
 	int arr[100];//丢包序号，数组元素初始化为-1，客户端遍历数组发现元素值为-1表示后面的元素无效
 }FileBack;
 //服务器返回26
-typedef struct FileBackSuccess
+typedef struct FileSuccessBack
 {
 	char filename[40]; //文件名称
 	int flag; //结果标志
-}FileBackSuccess;
+}FileSuccessBack;

@@ -25,12 +25,23 @@ CBaseOperation* OperationFactory::createRepository(RepositoryType type)
     switch (type)
     {
     case OperationFactory::RepositoryType::USER:
+    {
         pthread_mutex_lock(&mutex);
         if (userOp == nullptr) {
             userOp = new UserOperation();
         }
         pthread_mutex_unlock(&mutex);
-        return userOp;
+        return userOp; 
+    }
+    case OperationFactory::RepositoryType::PICTURE:
+    {
+        pthread_mutex_lock(&mutex);
+        if (picOp == nullptr) {
+            picOp = new PictureOperation();
+        }
+        pthread_mutex_unlock(&mutex);
+        return picOp;
+    }
     default:
         break;
     }

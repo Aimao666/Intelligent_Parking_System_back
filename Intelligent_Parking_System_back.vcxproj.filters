@@ -5,8 +5,6 @@
     <ClCompile Include="User.cpp">
       <Filter>poco</Filter>
     </ClCompile>
-    <ClCompile Include="CThreadPool.cpp" />
-    <ClCompile Include="IPCManager.cpp" />
     <ClCompile Include="CBaseTask.cpp">
       <Filter>task</Filter>
     </ClCompile>
@@ -34,14 +32,38 @@
     <ClCompile Include="CReadShmTask.cpp">
       <Filter>task</Filter>
     </ClCompile>
+    <ClCompile Include="CFileUploadTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="IPCManager.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="CThreadPool.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="CFileCheckTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CTools.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInfo.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="Picture.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="PictureOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
       <Filter>poco</Filter>
     </ClInclude>
-    <ClInclude Include="CThreadPool.h" />
-    <ClInclude Include="IPCManager.h" />
-    <ClInclude Include="protocol.h" />
     <ClInclude Include="CBaseTask.h">
       <Filter>task</Filter>
     </ClInclude>
@@ -69,6 +91,36 @@
     <ClInclude Include="CReadShmTask.h">
       <Filter>task</Filter>
     </ClInclude>
+    <ClInclude Include="CFileUploadTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="IPCManager.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="CThreadPool.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="CFileCheckTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CTools.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="FileInfo.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="Picture.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="PictureOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">
@@ -79,6 +131,12 @@
     </Filter>
     <Filter Include="Model">
       <UniqueIdentifier>{2813eb75-0661-4c7f-9795-5f17c6b2cf80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{9ebb4565-93cc-458d-8378-d1a63f66e1fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{bb8ada83-075f-4075-ba73-7ca7a9286f8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
