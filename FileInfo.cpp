@@ -9,6 +9,7 @@ FileInfo::FileInfo(string account, string filename, int totalNumber, int totalLe
 
 FileInfo::~FileInfo()
 {
+    pthread_mutex_destroy(&this->fileContextMapMutex);
 }
 
 

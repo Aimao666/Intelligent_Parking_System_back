@@ -29,6 +29,7 @@ void CFileCheckTask::work()
 		//3.数据库记录
 		string filePath = DataManager::basePath + fileInfo->getAccount() + "/pictures/" +
 			fileInfo->getFilename();
+		cout << "fwqPath.size()=" << filePath.size() << endl;
 		auto op = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PICTURE);
 		unique_ptr<Picture> pic(new Picture(fileInfo->getFilename(), fileInfo->getKhdPath(), 
 			filePath, fileInfo->getCreatetime(), fileInfo->getType(),fileInfo->getAccount()));

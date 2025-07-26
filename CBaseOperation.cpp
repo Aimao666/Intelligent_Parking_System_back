@@ -20,6 +20,7 @@ int CBaseOperation::doDelete(const std::string& whereSql)
         conn->commit();//事务提交
     }
     catch (SQLException e) {
+        std::cerr << "SQL Exception in delete: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
             conn->setAutoCommit(true);//关闭事务
@@ -42,6 +43,7 @@ int CBaseOperation::executeUpdate(string sql)
         conn->commit();//事务提交
     }
     catch (SQLException e) {
+        std::cerr << "SQL Exception in executeUpdate: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
             conn->setAutoCommit(true);//关闭事务
