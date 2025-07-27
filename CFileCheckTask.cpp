@@ -34,6 +34,7 @@ void CFileCheckTask::work()
 		unique_ptr<Picture> pic(new Picture(fileInfo->getFilename(), fileInfo->getKhdPath(), 
 			filePath, fileInfo->getCreatetime(), fileInfo->getType(),fileInfo->getAccount()));
 		res = op->doInsert(pic.get());
+		//准备返回包
 		HEAD headBack;
 		FileSuccessBack bodyBack;
 		headBack.bussinessLength = sizeof(bodyBack);
@@ -48,7 +49,13 @@ void CFileCheckTask::work()
 			bodyBack.flag = 0;
 			cout << "图片插入数据库失败" << endl;
 		}
-		//4.数据库操作执行完毕了，将该文件在内存的内容销毁
+		//4.发送返回包
+		char buffer[sizeof(HEAD) + sizeof(bodyBack)];
+		memcpy(buffer, &headBack, sizeof(HEAD));
+		memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
+		//数据存放共享内存
+		IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+		//5.数据库操作执行完毕了，将该文件在内存的内容销毁
 		fileContextMap.clear();
 		pthread_mutex_lock(&DataManager::allFileMapMutex);
 		DataManager::allFileMap.erase(fileKey);
