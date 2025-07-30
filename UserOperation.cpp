@@ -79,6 +79,7 @@ int UserOperation::doInsert(void* object)
 {
     User* ptr = (User*)object;
     string sql = "insert into " + tablename + " (`account`,`password`,`username`) values (?,?,?)";
+    pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(1, ptr->getAccount());
     pstmt->setString(2, ptr->getPassword());
@@ -96,10 +97,12 @@ int UserOperation::doInsert(void* object)
             conn->setAutoCommit(true);//关闭事务
         }
         delete pstmt;
+        pthread_mutex_unlock(&DBConnection::mutex);
         return 0;
     }
     delete pstmt;
     conn->setAutoCommit(true);//关闭事务
+    pthread_mutex_unlock(&DBConnection::mutex);
     return rs;
 }
 
@@ -107,6 +110,7 @@ int UserOperation::doUpdate(void* object)
 {
     User* ptr = (User*)object;
     string sql = "update " + tablename + " set `password`=?,`username`=? where `account`=?";
+    pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(3, ptr->getAccount());
     pstmt->setString(1, ptr->getPassword());
@@ -124,10 +128,12 @@ int UserOperation::doUpdate(void* object)
             conn->setAutoCommit(true);//关闭事务
         }
         delete pstmt;
+        pthread_mutex_unlock(&DBConnection::mutex);
         return 0;
     }
     delete pstmt;
     conn->setAutoCommit(true);//关闭事务
+    pthread_mutex_unlock(&DBConnection::mutex);
     return rs;
 }
 

@@ -27,6 +27,16 @@ unique_ptr<CBaseTask> CTaskFactory::createTask(int clientFd, int bussinessType, 
 		unique_ptr<RegisterTask> task(new RegisterTask(clientFd, data, length));
 		return task;
 	}
+	case 7://入场请求
+	{
+		unique_ptr<CCarEntryTask> task(new CCarEntryTask(clientFd, data, length));
+		return task;
+	}
+	case 9://出场请求
+	{
+		unique_ptr<CCarLeaveTask> task(new CCarLeaveTask(clientFd, data, length));
+		return task;
+	}
 	case 23://文件上传单个碎片包
 	{
 		unique_ptr<CFileUploadTask> task(new CFileUploadTask(clientFd, data, length));

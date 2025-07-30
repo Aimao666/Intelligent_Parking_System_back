@@ -14,7 +14,7 @@ void CFileUploadTask::work()
 	HEAD head;
 	FileInfoRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
-	memcpy(&request, taskData + sizeof(HEAD), sizeof request);
+	memcpy(&request, taskData + sizeof(HEAD), sizeof(request));
 	FileInfo::FileKey fileKey{ request.account,request.filename };
 
 	//根据当前碎片有效字节数来从请求包中取数据
@@ -41,11 +41,10 @@ void CFileUploadTask::work()
 	}
 	pthread_mutex_unlock(&DataManager::allFileMapMutex);
 	cout << "++++++包详细信息++++++" << endl;
-	cout << "account=" << fileInfo->getAccount() << " filename=" << fileInfo->getFilename() << endl;
+	cout << "account=" << request.account << " filename=" << request.filename << endl;
 	cout << "有效字节fileLength=" << request.fileLength << " 序号=" << request.fileIndex << endl;
-	cout << "totalNumber=" << fileInfo->getTotalNumber() << " createtime=" << fileInfo->getCreatetime() << endl;
-	cout << "totalLength=" << fileInfo->getTotalLength() << " type=" << fileInfo->getType() << endl;
-	cout << "khdPath=" << fileInfo->getKhdPath() << endl;
+	cout << "totalNumber=" << request.totalNumber << " khdPath=" << request.khdPath << endl;
+	cout << "totalLength=" << request.totalLength << " type=" << request.type << endl;
 	cout << "++++++++++++++++++++++" << endl;
 	//保存文件碎片
 	pthread_mutex_lock(&fileInfo->fileContextMapMutex);
@@ -59,6 +58,7 @@ void CFileUploadTask::work()
 		cout << fileInfo->getFilename() << "文件序号:" << resPair.first->first << "保存成功" << endl;
 	}
 	else {
-		cout << fileInfo->getFilename() << "文件序号:" << resPair.first->first << "保存失败" << endl;
+		cout << fileInfo->getFilename() << "文件序号:" << resPair.first->first << "保存失败，已存在，原先保存字节长度:" <<
+			resPair.first->second.size() << endl;
 	}
 }

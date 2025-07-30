@@ -7,11 +7,7 @@ CLoginTask::CLoginTask(int fd, char* data, size_t len)
 
 void CLoginTask::work()
 {
-	cout << this->taskData << "正在执行" << endl;
-	if (this->dataLen <= 0) {
-		cout << "请求体长度小于0，异常" << endl;
-		return;
-	}
+	cout << "CLoginTask正在执行" << endl;
 	//数据解析
 	HEAD head;
 	LoginRequest request;

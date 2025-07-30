@@ -6,6 +6,8 @@
 #include "RegisterTask.h"
 #include "CFileCheckTask.h"
 #include "CFileUploadTask.h"
+#include "CCarEntryTask.h"
+#include "CCarLeaveTask.h"
 using namespace std;
 class CTaskFactory
 {

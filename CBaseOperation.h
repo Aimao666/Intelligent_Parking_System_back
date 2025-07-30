@@ -4,7 +4,6 @@
 #include <cppconn/resultset.h>
 #include <vector>
 #include <memory>
-
 class CBaseOperation {
 public:
     CBaseOperation();
@@ -17,10 +16,10 @@ public:
         std::unique_ptr<std::vector<std::unique_ptr<T>>>results(new std::vector<std::unique_ptr<T>>());
         //sql为空则走默认的全表查询，不为空则sql是什么就执行什么，千万不要传错sql了
         std::string finalSql = sql.empty() ? "SELECT * FROM " + tablename : sql;
-        
-        sql::PreparedStatement* pstmt = conn->prepareStatement(finalSql);
-        sql::ResultSet* rs = nullptr;
 
+        sql::ResultSet* rs = nullptr;
+        pthread_mutex_lock(&DBConnection::mutex);
+        sql::PreparedStatement* pstmt = conn->prepareStatement(finalSql);
         try {
             rs = pstmt->executeQuery();
             while (rs->next()) {
@@ -36,11 +35,13 @@ public:
             std::cerr << "SQL Exception in query: " << e.what() << std::endl;
             delete rs;
             delete pstmt;
+            pthread_mutex_unlock(&DBConnection::mutex);
             return nullptr;
         }
 
         delete rs;
         delete pstmt;
+        pthread_mutex_unlock(&DBConnection::mutex);
         return results;//直接返回就行vec会被视为将亡值触发移动构造
     }
 

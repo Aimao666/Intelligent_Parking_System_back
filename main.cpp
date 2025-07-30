@@ -9,15 +9,15 @@
 int main()
 {
     pthread_mutex_init(&DataManager::allFileMapMutex,NULL);
-    CThreadPool* pool = new CThreadPool();
+    CThreadPool* pool = new CThreadPool(4);
     IPCManager* ipc = IPCManager::getInstance();
     cout << "sizeof(IPCManager)=" << sizeof(IPCManager) << endl;//36，只计入非静态成员变量的大小，所有函数都不计入
     int msgid = ipc->initMsg(20001);
-    int semid = ipc->initSem(20001, 48, 1);
+    int semid = ipc->initSem(20001, 1000, 1);
     int block_num = ipc->getNums_sems();//信号量数组大小，对应共享内存被拆分成多少块
     int shmid = ipc->initShm(20001, block_num * (sizeof(int) + MAX_BODY_LENGTH));
     if (msgid < 0 || semid < 0 || shmid < 0) {
-        cout << "ipc分配失败" << endl;
+        cout << "ipc分配失败,shmid=" << shmid << " semid=" << semid << " msgid=" << msgid << endl;
         return 0;
     }
     //void* shmaddr = shmat(shmid, NULL, 0);//用于接收共享内存块起始地址

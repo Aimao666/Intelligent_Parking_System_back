@@ -19,10 +19,10 @@ public:
 	static DBConnection* getInstance();
 	sql::Connection* getConnection();
 	void disConnection();//断开数据库连接
+	static pthread_mutex_t mutex;
 private:
 	DBConnection();
 	static DBConnection* instance;
-	static pthread_mutex_t mutex;
 	MySQL_Driver* driver;//继承自Driver
 	string path;
 	unique_ptr<Connection> conn;

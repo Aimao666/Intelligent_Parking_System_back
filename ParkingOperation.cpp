@@ -1,23 +1,21 @@
-#include "PictureOperation.h"
+#include "ParkingOperation.h"
 
-PictureOperation::PictureOperation()
+ParkingOperation::ParkingOperation()
 {
-    tablename = "picture_info";
+    tablename = "parking_info";
 }
-
-//入场时插入，出场时更新
-int PictureOperation::doInsert(void* object)
+//入场
+int ParkingOperation::doInsert(void* object)
 {
-    Picture* ptr = (Picture*)object;
-    string sql = "insert into " + tablename + " (`account`,`name`,`khdPath`,`fwqPath`,`createtime`,`type`) values (?,?,?,?,?,?)";
+    Parking* ptr = static_cast<Parking*>(object);
+    string sql = "insert into " + tablename + " (`account`,`carNumber`,`entryTime`,`entryPosition`,`entryPicId`) values (?,?,?,?,?)";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(1, ptr->getAccount());
-    pstmt->setString(2, ptr->getName());
-    pstmt->setString(3, ptr->getKhdPath());
-    pstmt->setString(4, ptr->getFwqPath());
-    pstmt->setString(5, ptr->getCreatetime());
-    pstmt->setInt(6, ptr->getType());
+    pstmt->setString(2, ptr->getCarNumber());
+    pstmt->setString(3, ptr->getEntryTime());
+    pstmt->setString(4, ptr->getEntryPosition());
+    pstmt->setInt(5, ptr->getEntryPicId());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {
@@ -39,21 +37,19 @@ int PictureOperation::doInsert(void* object)
     pthread_mutex_unlock(&DBConnection::mutex);
     return rs;
 }
-
-//入场时插入，出场时更新
-int PictureOperation::doUpdate(void* object)
+//出场
+int ParkingOperation::doUpdate(void* object)
 {
-    Picture* ptr = (Picture*)object;
-    string sql = "update " + tablename + " set `account`=?,`name`=?,`khdPath`=?,`fwqPath`=?,`createtime`=?,`type`=? where `id`=?;";
+    Parking* ptr = static_cast<Parking*>(object);
+    string sql = "update " + tablename + " set `leaveTime`=?,`leavePosition`=?,`leavePicId`=?,`dueCost`=? ,`reallyCost`=? where `id`=?;";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
-    pstmt->setString(1, ptr->getAccount());
-    pstmt->setString(2, ptr->getName());
-    pstmt->setString(3, ptr->getKhdPath());
-    pstmt->setString(4, ptr->getFwqPath());
-    pstmt->setString(5, ptr->getCreatetime());
-    pstmt->setInt(6, ptr->getType());
-    pstmt->setInt(7, ptr->getId());
+    pstmt->setString(1, ptr->getLeaveTime());
+    pstmt->setString(2, ptr->getLeavePosition());
+    pstmt->setInt(3, ptr->getLeavePicId());
+    pstmt->setInt(4, ptr->getDueCost());
+    pstmt->setInt(5, ptr->getReallyCost());
+    pstmt->setInt(6, ptr->getId());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {
@@ -76,9 +72,10 @@ int PictureOperation::doUpdate(void* object)
     return rs;
 }
 
-void PictureOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
+void ParkingOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
 {
-    Picture* ptr = static_cast<Picture*>(object);
+
+    Parking* ptr = static_cast<Parking*>(object);
     sql::ResultSetMetaData* meta = rs->getMetaData();//rs管理生命周期，无需释放
     const int colCount = meta->getColumnCount();
 
@@ -92,20 +89,29 @@ void PictureOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
         else if (colName == "id") {
             ptr->setId(rs->getInt(i));
         }
-        else if (colName == "type") {
-            ptr->setType((Picture::PICTYPE)rs->getInt(i));
+        else if (colName == "dueCost") {
+            ptr->setDueCost(rs->getInt(i));
         }
-        else if (colName == "name") {
-            ptr->setName(rs->getString(i));
+        else if (colName == "reallyCost") {
+            ptr->setReallyCost(rs->getInt(i));
         }
-        else if (colName == "khdPath") {
-            ptr->setKhdPath(rs->getString(i));
+        else if (colName == "entryPicId") {
+            ptr->setEntryPicId(rs->getInt(i));
         }
-        else if (colName == "fwqPath") {
-            ptr->setFwqPath(rs->getString(i));
+        else if (colName == "entryTime") {
+            ptr->setEntryTime(rs->getString(i));
         }
-        else if (colName == "createtime") {
-            ptr->setCreatetime(rs->getString(i));
+        else if (colName == "entryPosition") {
+            ptr->setEntryPosition(rs->getString(i));
+        }
+        else if (colName == "leavePicId") {
+            ptr->setLeavePicId(rs->getInt(i));
+        }
+        else if (colName == "leaveTime") {
+            ptr->setLeaveTime(rs->getString(i));
+        }
+        else if (colName == "leavePosition") {
+            ptr->setLeavePosition(rs->getString(i));
         }
         else {
             std::cerr << "Unknown column: " << colName << std::endl;

@@ -1,6 +1,6 @@
 #include "Picture.h"
 
-Picture::Picture(string name, string khdPath, string fwqPath, string createtime, int type, string account)
+Picture::Picture(string name, string khdPath, string fwqPath, string createtime, PICTYPE type, string account)
 	:name(name),khdPath(khdPath),fwqPath(fwqPath),createtime(createtime),type(type),account(account)
 {
 }
@@ -56,12 +56,12 @@ void Picture::setCreatetime(string createtime)
     this->createtime = createtime;
 }
 
-int Picture::getType() const
+Picture::PICTYPE Picture::getType() const
 {
     return type;
 }
 
-void Picture::setType(int type)
+void Picture::setType(Picture::PICTYPE type)
 {
     this->type = type;
 }
@@ -75,4 +75,3 @@ void Picture::setAccount(string account)
 {
     this->account = account;
 }
-

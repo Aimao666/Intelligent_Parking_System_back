@@ -59,6 +59,18 @@
     <ClCompile Include="PictureOperation.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="CCarEntryTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CCarLeaveTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="Parking.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkingOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -119,6 +131,18 @@
       <Filter>poco</Filter>
     </ClInclude>
     <ClInclude Include="PictureOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CCarEntryTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CCarLeaveTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="Parking.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkingOperation.h">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>

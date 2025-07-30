@@ -7,11 +7,7 @@ RegisterTask::RegisterTask(int fd, char* data, size_t len)
 
 void RegisterTask::work()
 {
-	cout << this->taskData << "正在执行" << endl;
-	if (this->dataLen <= 0) {
-		cout << "请求体长度小于0，异常" << endl;
-		return;
-	}
+	cout << "RegisterTask正在执行" << endl;
 	//数据解析
 	HEAD head;
 	RegisterRequest request;
@@ -21,7 +17,7 @@ void RegisterTask::work()
 
 	//数据库查询
 	CBaseOperation* userop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::USER);
-	User* user = new User(request.account,"e10adc3949ba59abbe56e057f20f883e");
+	User user(request.account,"e10adc3949ba59abbe56e057f20f883e");
 
 	//准备好报文发给前置服务器，只有前置服务器才有网，才能发给客户端
 	HEAD headBack;
@@ -29,7 +25,7 @@ void RegisterTask::work()
 	headBack.bussinessType = 6;
 	headBack.bussinessLength = sizeof(CommonBack);
 	headBack.crc = this->clientFd;
-	int res = userop->doInsert(user);
+	int res = userop->doInsert(&user);
 	if (res > 0) {
 		bodyBack.flag = 1;
 		sprintf(bodyBack.message, "用户%s注册成功", request.account);

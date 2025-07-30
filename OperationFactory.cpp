@@ -42,6 +42,15 @@ CBaseOperation* OperationFactory::createRepository(RepositoryType type)
         pthread_mutex_unlock(&mutex);
         return picOp;
     }
+    case OperationFactory::RepositoryType::PARKING:
+    {
+        pthread_mutex_lock(&mutex);
+        if (parkOp == nullptr) {
+            parkOp = new ParkingOperation();
+        }
+        pthread_mutex_unlock(&mutex);
+        return parkOp;
+    }
     default:
         break;
     }
