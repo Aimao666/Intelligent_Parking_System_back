@@ -46,8 +46,8 @@ void CCarLeaveTask::work()
 			int costHour = (diffTime + 3599) / 3600;//消费时长，小时计
 			//计算应付金额
 			parkingInfo.setDueCost(costHour * 5);//每小时5元
-			int rows = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING)->doInsert(&parkingInfo);
-			bodyBack.dueCost = parkingInfo.getDueCost();
+			int rows = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING)->doUpdate(&parkingInfo);
+			bodyBack.dueCost = costHour * 5;
 			strcpy(bodyBack.carNumber, request.carNumber);
 			strcpy(bodyBack.entryTime, parkingInfo.getEntryTime().c_str());
 			bodyBack.mesc = diffTime;

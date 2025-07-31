@@ -4,15 +4,15 @@
 Parking::Parking(PARKINGTYPE parkingType, string account, string carNumber, string time, string position, int picId)
     :account(account),carNumber(carNumber)
 {
-    if (PARKINGTYPE::ENTRY) {
-        entryTime = time;
-        entryPicId = picId;
-        entryPosition = position;
+    if (parkingType == PARKINGTYPE::ENTRY) {
+        this->entryTime = time;
+        this->entryPicId = picId;
+        this->entryPosition = position;
     }
-    else if (PARKINGTYPE::LEAVE) {
-        leaveTime = time;
-        leavePicId = picId;
-        leavePosition = position;
+    else if (parkingType == PARKINGTYPE::LEAVE) {
+        this->leaveTime = time;
+        this->leavePicId = picId;
+        this->leavePosition = position;
     }
 }
 //完整构造
@@ -25,7 +25,7 @@ Parking::Parking(string account, string carNumber, int dueCost, int reallyCost, 
 
 int Parking::getId() const
 {
-    return id;
+    return this->id;
 }
 
 void Parking::setId(int id)
@@ -35,7 +35,7 @@ void Parking::setId(int id)
 
 int Parking::getDueCost() const
 {
-    return dueCost;
+    return this->dueCost;
 }
 
 void Parking::setDueCost(int dueCost)

@@ -71,6 +71,7 @@
     <ClCompile Include="ParkingOperation.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="CAgreeLeaveTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -145,6 +146,7 @@
     <ClInclude Include="ParkingOperation.h">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="CAgreeLeaveTask.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">

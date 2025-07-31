@@ -41,15 +41,14 @@ int ParkingOperation::doInsert(void* object)
 int ParkingOperation::doUpdate(void* object)
 {
     Parking* ptr = static_cast<Parking*>(object);
-    string sql = "update " + tablename + " set `leaveTime`=?,`leavePosition`=?,`leavePicId`=?,`dueCost`=? ,`reallyCost`=? where `id`=?;";
+    string sql = "update " + tablename + " set `leaveTime`=?,`leavePosition`=?,`leavePicId`=?,`dueCost`=? where `id`=?;";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(1, ptr->getLeaveTime());
     pstmt->setString(2, ptr->getLeavePosition());
     pstmt->setInt(3, ptr->getLeavePicId());
     pstmt->setInt(4, ptr->getDueCost());
-    pstmt->setInt(5, ptr->getReallyCost());
-    pstmt->setInt(6, ptr->getId());
+    pstmt->setInt(5, ptr->getId());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {
