@@ -1,21 +1,25 @@
-#include "ParkingOperation.h"
+#include "VideoOperation.h"
 
-ParkingOperation::ParkingOperation()
+VideoOperation::VideoOperation()
 {
-    tablename = "parking_info";
+	tablename = "video_info";
 }
-//入场
-int ParkingOperation::doInsert(void* object)
+
+int VideoOperation::doInsert(void* object)
 {
-    Parking* ptr = static_cast<Parking*>(object);
-    string sql = "insert into " + tablename + " (`account`,`carNumber`,`entryTime`,`entryPosition`,`entryPicId`) values (?,?,?,?,?)";
+    Video* ptr = static_cast<Video*>(object);
+    string sql = "insert into " + tablename + " (`account`,`vname`,`vpath`,`pname`,`ppath`,`totaltime`,`currentPlaytime`,`createtime`)" +
+        "values (?,?,?,?,?,?,?,?)";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(1, ptr->getAccount());
-    pstmt->setString(2, ptr->getCarNumber());
-    pstmt->setString(3, ptr->getEntryTime());
-    pstmt->setString(4, ptr->getEntryPosition());
-    pstmt->setInt(5, ptr->getEntryPicId());
+    pstmt->setString(2, ptr->getVname());
+    pstmt->setString(3, ptr->getVpath());
+    pstmt->setString(4, ptr->getPname());
+    pstmt->setString(5, ptr->getPpath());
+    pstmt->setString(6, ptr->getTotaltime());
+    pstmt->setString(7, ptr->getCurrentPlaytime());
+    pstmt->setString(8, ptr->getCreatetime());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {
@@ -37,18 +41,15 @@ int ParkingOperation::doInsert(void* object)
     pthread_mutex_unlock(&DBConnection::mutex);
     return rs;
 }
-//出场
-int ParkingOperation::doUpdate(void* object)
+
+int VideoOperation::doUpdate(void* object)
 {
-    Parking* ptr = static_cast<Parking*>(object);
-    string sql = "update " + tablename + " set `leaveTime`=?,`leavePosition`=?,`leavePicId`=?,`dueCost`=? where `id`=?;";
+    Video* ptr = static_cast<Video*>(object);
+    string sql = "update " + tablename + " set `currentPlaytime`=? where `id`=?;";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
-    pstmt->setString(1, ptr->getLeaveTime());
-    pstmt->setString(2, ptr->getLeavePosition());
-    pstmt->setInt(3, ptr->getLeavePicId());
-    pstmt->setInt(4, ptr->getDueCost());
-    pstmt->setInt(5, ptr->getId());
+    pstmt->setString(1, ptr->getCurrentPlaytime());
+    pstmt->setInt(2, ptr->getId());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {
@@ -71,10 +72,9 @@ int ParkingOperation::doUpdate(void* object)
     return rs;
 }
 
-void ParkingOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
+void VideoOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
 {
-
-    Parking* ptr = static_cast<Parking*>(object);
+    Video* ptr = static_cast<Video*>(object);
     sql::ResultSetMetaData* meta = rs->getMetaData();//rs管理生命周期，无需释放
     const int colCount = meta->getColumnCount();
 
@@ -88,36 +88,29 @@ void ParkingOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
         else if (colName == "id") {
             ptr->setId(rs->getInt(i));
         }
-        else if (colName == "dueCost") {
-            ptr->setDueCost(rs->getInt(i));
+        else if (colName == "vname") {
+            ptr->setVname(rs->getString(i));
         }
-        else if (colName == "reallyCost") {
-            ptr->setReallyCost(rs->getInt(i));
+        else if (colName == "vpath") {
+            ptr->setVpath(rs->getString(i));
         }
-        else if (colName == "entryPicId") {
-            ptr->setEntryPicId(rs->getInt(i));
+        else if (colName == "pname") {
+            ptr->setPname(rs->getString(i));
         }
-        else if (colName == "entryTime") {
-            ptr->setEntryTime(rs->getString(i));
+        else if (colName == "ppath") {
+            ptr->setPname(rs->getString(i));
         }
-        else if (colName == "entryPosition") {
-            ptr->setEntryPosition(rs->getString(i));
+        else if (colName == "totaltime") {
+            ptr->setTotaltime(rs->getString(i));
         }
-        else if (colName == "leavePicId") {
-            ptr->setLeavePicId(rs->getInt(i));
+        else if (colName == "currentPlaytime") {
+            ptr->setCurrentPlaytime(rs->getString(i));
         }
-        else if (colName == "leaveTime") {
-            ptr->setLeaveTime(rs->getString(i));
-        }
-        else if (colName == "leavePosition") {
-            ptr->setLeavePosition(rs->getString(i));
-        }
-        else if (colName == "carNumber") {
-            ptr->setCarNumber(rs->getString(i));
-            
+        else if (colName == "createtime") {
+            ptr->setCreatetime(rs->getString(i));
         }
         else {
-            std::cerr << "ParkingOperation Unknown column: " << colName << std::endl;
+            std::cerr << "VideoOperation Unknown column: " << colName << std::endl;
         }
     }
 }

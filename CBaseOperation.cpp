@@ -36,6 +36,16 @@ int CBaseOperation::doDelete(const std::string& whereSql)
     return rs;
 }
 
+int CBaseOperation::doInsert(void* pocoPtr)
+{
+    return 0;
+}
+
+int CBaseOperation::doUpdate(void* pocoPtr)
+{
+    return 0;
+}
+
 int CBaseOperation::executeUpdate(string sql)
 {
     pthread_mutex_lock(&DBConnection::mutex);

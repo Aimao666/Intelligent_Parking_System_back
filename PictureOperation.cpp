@@ -108,7 +108,7 @@ void PictureOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
             ptr->setCreatetime(rs->getString(i));
         }
         else {
-            std::cerr << "Unknown column: " << colName << std::endl;
+            std::cerr << "PictureOperation Unknown column: " << colName << std::endl;
         }
     }
 }

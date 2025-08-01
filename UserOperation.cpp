@@ -62,14 +62,14 @@ void UserOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object) {
         if (colName == "account") {
             ptr->setAccount(rs->getString(i));
         }
-        else if (colName == "username") {
-            ptr->setUsername(rs->getString(i));
+        else if (colName == "totalNum") {
+            ptr->setTotalNum(rs->getInt(i));
         }
         else if (colName == "password") {
             ptr->setPassword(rs->getString(i));
         }
         else {
-            std::cerr << "Unknown column: " << colName << std::endl;
+            std::cerr << "UserOperation Unknown column: " << colName << std::endl;
         }
     }
 }
@@ -78,12 +78,12 @@ void UserOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object) {
 int UserOperation::doInsert(void* object)
 {
     User* ptr = (User*)object;
-    string sql = "insert into " + tablename + " (`account`,`password`,`username`) values (?,?,?)";
+    string sql = "insert into " + tablename + " (`account`,`password`,`totalNum`) values (?,?,?)";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(1, ptr->getAccount());
     pstmt->setString(2, ptr->getPassword());
-    pstmt->setString(3, ptr->getUsername());
+    pstmt->setInt(3, ptr->getTotalNum());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {
@@ -109,12 +109,12 @@ int UserOperation::doInsert(void* object)
 int UserOperation::doUpdate(void* object)
 {
     User* ptr = (User*)object;
-    string sql = "update " + tablename + " set `password`=?,`username`=? where `account`=?";
+    string sql = "update " + tablename + " set `password`=?,`totalNum`=? where `account`=?";
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
     pstmt->setString(3, ptr->getAccount());
     pstmt->setString(1, ptr->getPassword());
-    pstmt->setString(2, ptr->getUsername());
+    pstmt->setInt(3, ptr->getTotalNum());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {

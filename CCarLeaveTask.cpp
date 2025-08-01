@@ -10,7 +10,7 @@ CCarLeaveTask::CCarLeaveTask(int fd, char* data, size_t len)
 
 void CCarLeaveTask::work()
 {
-	cout << "CFileCheckTask正在执行" << endl;
+	cout << "CCarLeaveTask正在执行" << endl;
 	//数据解析
 	HEAD head;
 	CarLeaveRequest request;
@@ -62,6 +62,10 @@ void CCarLeaveTask::work()
 			//查询失败
 			cout << "出场图片查询成功失败sql=" << sql2 << endl;
 			cout << "无法出场" << endl;
+			bodyBack.dueCost = 0;
+			strcpy(bodyBack.carNumber, request.carNumber);
+			strcpy(bodyBack.entryTime, "");
+			bodyBack.mesc = 0;
 		}
 	}
 	else {
@@ -72,6 +76,36 @@ void CCarLeaveTask::work()
 		bodyBack.mesc = 0;
 	}
 
+	cout << "+++++++CarLeaveBack详细信息+++++++" << endl;
+	cout << "carNumber=" << bodyBack.carNumber << " dueCost=" << bodyBack.dueCost << endl;
+	cout << "mesc=" << bodyBack.mesc << " entryTime=" << bodyBack.entryTime << endl;
+	cout << "++++++++++++++++++++" << endl;
+
+	//查询停车场车位信息
+	string sql4 = "select remainingSpaces,occupiedSpaces from car_space_view where `account` = '" + string(request.account) + "';";
+	int remainingSpaces = -1;
+	int occupiedSpaces = -1;
+	pthread_mutex_lock(&DBConnection::mutex);
+	sql::PreparedStatement* pstmt = DBConnection::getInstance()->getConnection()->prepareStatement(sql4);
+	ResultSet* rs;
+	try {
+		rs = pstmt->executeQuery();
+		if (rs->next()) {
+			remainingSpaces = rs->getInt("remainingSpaces");
+			occupiedSpaces = rs->getInt("occupiedSpaces");
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::cerr << "SQL Exception in query: " << e.what() << std::endl;
+		delete rs;
+		delete pstmt;
+		pthread_mutex_unlock(&DBConnection::mutex);
+	}
+	delete rs;
+	delete pstmt;
+	pthread_mutex_unlock(&DBConnection::mutex);
+	bodyBack.remainNum = remainingSpaces;
+	bodyBack.currentNum = occupiedSpaces;
 
 	//准备数据缓冲区
 	char buffer[sizeof(HEAD) + sizeof(bodyBack)];

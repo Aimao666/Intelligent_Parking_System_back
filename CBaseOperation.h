@@ -47,8 +47,8 @@ public:
 
 
     // 其他通用操作接口
-    virtual int doInsert(void* pocoPtr) = 0;
-    virtual int doUpdate(void* pocoPtr) = 0;
+    virtual int doInsert(void* pocoPtr);
+    virtual int doUpdate(void* pocoPtr);
 
     //实现的基本的DML操作，不对传入的sql进行任何校验，直接执行，返回受影响的行数
     virtual int executeUpdate(string sql);

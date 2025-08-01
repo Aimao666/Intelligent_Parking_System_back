@@ -4,22 +4,24 @@ using namespace std;
 class User
 {
 public:
-	User(string account="", string password="", string username="");
-	~User();
+
+    User(string account = "", string password = "", int totalNum = 2000);
+	~User()=default;
 private:
 	string account;
-	string username;
+	int totalNum;
 	string password;
 
 public:
     string getAccount() const;
     void setAccount(string account);
 
-    string getUsername() const;
-    void setUsername(string username);
 
     string getPassword() const;
     void setPassword(string password);
+
+    int getTotalNum() const;
+    void setTotalNum(int totalNum);
 
 };
 

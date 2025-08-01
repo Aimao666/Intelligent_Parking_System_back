@@ -24,35 +24,45 @@ CBaseOperation* OperationFactory::createRepository(RepositoryType type)
 {
     switch (type)
     {
-    case OperationFactory::RepositoryType::USER:
-    {
-        pthread_mutex_lock(&mutex);
-        if (userOp == nullptr) {
-            userOp = new UserOperation();
+        case OperationFactory::RepositoryType::USER:
+        {
+            pthread_mutex_lock(&mutex);
+            if (userOp == nullptr) {
+                userOp = new UserOperation();
+            }
+            pthread_mutex_unlock(&mutex);
+            return userOp; 
         }
-        pthread_mutex_unlock(&mutex);
-        return userOp; 
-    }
-    case OperationFactory::RepositoryType::PICTURE:
-    {
-        pthread_mutex_lock(&mutex);
-        if (picOp == nullptr) {
-            picOp = new PictureOperation();
+        case OperationFactory::RepositoryType::PICTURE:
+        {
+            pthread_mutex_lock(&mutex);
+            if (picOp == nullptr) {
+                picOp = new PictureOperation();
+            }
+            pthread_mutex_unlock(&mutex);
+            return picOp;
         }
-        pthread_mutex_unlock(&mutex);
-        return picOp;
-    }
-    case OperationFactory::RepositoryType::PARKING:
-    {
-        pthread_mutex_lock(&mutex);
-        if (parkOp == nullptr) {
-            parkOp = new ParkingOperation();
+        case OperationFactory::RepositoryType::PARKING:
+        {
+            pthread_mutex_lock(&mutex);
+            if (parkOp == nullptr) {
+                parkOp = new ParkingOperation();
+            }
+            pthread_mutex_unlock(&mutex);
+            return parkOp;
         }
-        pthread_mutex_unlock(&mutex);
-        return parkOp;
-    }
-    default:
-        break;
+        case OperationFactory::RepositoryType::VIDEO:
+        {
+            pthread_mutex_lock(&mutex);
+            if (vdOp == nullptr) {
+                vdOp = new VideoOperation();
+            }
+            pthread_mutex_unlock(&mutex);
+            return vdOp;
+        }
+        default:
+            std::cout << "未知RepositoryType=" << (int)type << endl;
+            break;
     }
     return nullptr;
 }

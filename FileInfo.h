@@ -30,7 +30,7 @@ private:
 	int totalLength;//原文件总字节数
 	int clientFd;//客户端文件描述符
 
-	int type;//图片类型 1入场 2出场 3 监控截图 4视频首帧
+	int type;//图片类型 1入场 2出场 3 监控截图
 	string createtime;//图片创建时间
 	string khdPath;//客户端图片路径
 

@@ -20,6 +20,7 @@ public:
 	sql::Connection* getConnection();
 	void disConnection();//断开数据库连接
 	static pthread_mutex_t mutex;
+	static pthread_mutex_t createMutex;
 private:
 	DBConnection();
 	static DBConnection* instance;

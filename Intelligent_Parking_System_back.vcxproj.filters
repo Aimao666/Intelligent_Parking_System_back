@@ -71,7 +71,24 @@
     <ClCompile Include="ParkingOperation.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="CAgreeLeaveTask.cpp" />
+    <ClCompile Include="CAgreeLeaveTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CUploadVideoTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="Video.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="VpView.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CUpdateCarNumberTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -146,7 +163,24 @@
     <ClInclude Include="ParkingOperation.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="CAgreeLeaveTask.h" />
+    <ClInclude Include="CAgreeLeaveTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CUploadVideoTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="Video.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="VpView.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CUpdateCarNumberTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">

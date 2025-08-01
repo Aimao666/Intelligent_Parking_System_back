@@ -4,7 +4,7 @@ CCarEntryTask::CCarEntryTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
 	headBack.bussinessType = 8;
-	headBack.bussinessLength = sizeof(CommonBack);
+	headBack.bussinessLength = sizeof(bodyBack);
 	headBack.crc = this->clientFd;
 }
 
@@ -19,11 +19,6 @@ void CCarEntryTask::work()
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), head.bussinessLength);
 	Parking parkingInfo(Parking::PARKINGTYPE::ENTRY, request.account, request.carNumber, request.entryTime, request.entryPosition);
-	cout << "+++++++CarEntryRequest详细信息+++++++" << endl;
-	cout << "account=" << request.account << " carNumber=" << request.carNumber << endl;
-	cout << "entryTime=" << request.entryTime << " entryPosition=" << request.entryPosition << endl;
-	string entryTime2 = request.entryTime;
-	cout << "entryTime2=" << entryTime2 << " parkingInfo.getEntryTime()=" << parkingInfo.getEntryTime() << endl;
 	//获取入场图片id
 	string sql = "select id from picture_info where type = 1 and account='"+ parkingInfo.getAccount() + "' and createtime='" 
 		+ parkingInfo.getEntryTime() + "';";
@@ -66,6 +61,36 @@ void CCarEntryTask::work()
 		strcpy(bodyBack.carEntryArr[i].entryTime, ele->getEntryTime().c_str());
 		strcpy(bodyBack.carEntryArr[i].entryPosition, ele->getEntryPosition().c_str());
 	}
+	cout << "入场记录查询完毕" << endl;
+	//查询停车场车位信息
+	string sql4 = "select remainingSpaces,occupiedSpaces from car_space_view where `account` = '"+string(request.account)+"';";
+	int remainingSpaces = -1;
+	int occupiedSpaces = -1;
+	pthread_mutex_lock(&DBConnection::mutex);
+	sql::PreparedStatement* pstmt = DBConnection::getInstance()->getConnection()->prepareStatement(sql4);
+	ResultSet* rs;
+	try {
+		rs = pstmt->executeQuery();
+		if (rs->next()) {
+			remainingSpaces = rs->getInt("remainingSpaces");
+			occupiedSpaces = rs->getInt("occupiedSpaces");
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::cerr << "SQL Exception in query: " << e.what() << std::endl;
+		delete rs;
+		delete pstmt;
+		pthread_mutex_unlock(&DBConnection::mutex);
+	}
+	delete rs;
+	delete pstmt;
+	pthread_mutex_unlock(&DBConnection::mutex);
+	bodyBack.remainNum = remainingSpaces;
+	bodyBack.currentNum = occupiedSpaces;
+	cout << "+++++++CarEntryBack详细信息+++++++" << endl;
+	cout << "validNum=" << bodyBack.validNum << endl;
+	cout << "剩余车位数=" << remainingSpaces << endl;
+	cout << "++++++++++++++++++++" << endl;
 	//准备数据缓冲区
 	char buffer[sizeof(HEAD) + sizeof(bodyBack)];
 	memcpy(buffer, &headBack, sizeof(HEAD));

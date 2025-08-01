@@ -4,12 +4,13 @@
 #include "CBaseOperation.h"
 #include "PictureOperation.h"
 #include "ParkingOperation.h"
+#include "VideoOperation.h"
 class OperationFactory
 {
 public:
 	~OperationFactory();
 	static OperationFactory* getInstance();
-	enum class RepositoryType { USER ,PICTURE,PARKING};
+	enum class RepositoryType { USER, PICTURE, PARKING, VIDEO };
 	CBaseOperation* createRepository(RepositoryType type);
 private:
 	OperationFactory();
@@ -18,5 +19,6 @@ private:
 	UserOperation* userOp;
 	PictureOperation* picOp;
 	ParkingOperation* parkOp;
+	VideoOperation* vdOp;
 };
 

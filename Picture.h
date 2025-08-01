@@ -21,7 +21,7 @@ private:
 	string khdPath;//图片客户端路径
 	string fwqPath;//图片服务器路径
 	string createtime;//创建时间
-	PICTYPE type;//图片类型 1入场 2出场 3 监控截图 4视频首帧
+	PICTYPE type;//图片类型 1入场 2出场 3 监控截图
 	string account;//用户账号
 public:
 	//getter and setter

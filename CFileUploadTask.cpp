@@ -40,12 +40,6 @@ void CFileUploadTask::work()
 		fileInfo = DataManager::allFileMap[fileKey].get();
 	}
 	pthread_mutex_unlock(&DataManager::allFileMapMutex);
-	cout << "++++++包详细信息++++++" << endl;
-	cout << "account=" << request.account << " filename=" << request.filename << endl;
-	cout << "有效字节fileLength=" << request.fileLength << " 序号=" << request.fileIndex << endl;
-	cout << "totalNumber=" << request.totalNumber << " khdPath=" << request.khdPath << endl;
-	cout << "totalLength=" << request.totalLength << " type=" << request.type << endl;
-	cout << "++++++++++++++++++++++" << endl;
 	//保存文件碎片
 	pthread_mutex_lock(&fileInfo->fileContextMapMutex);
 	//!!!!!!有坑！！！！！string的构造函数会认为context是一个C字符串（以'\0'结尾），

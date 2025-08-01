@@ -1,13 +1,10 @@
 #include "User.h"
 
-User::User(string account, string password, string username)
-    :account(account),password(password),username(username)
+User::User(string account, string username, int totalNum)
+    :account(account),password(password), totalNum(totalNum)
 {
 }
 
-User::~User()
-{
-}
 
 string User::getAccount() const
 {
@@ -19,16 +16,6 @@ void User::setAccount(string account)
     this->account = account;
 }
 
-string User::getUsername() const
-{
-    return username;
-}
-
-void User::setUsername(string username)
-{
-    this->username = username;
-}
-
 string User::getPassword() const
 {
     return password;
@@ -37,5 +24,16 @@ string User::getPassword() const
 void User::setPassword(string password)
 {
     this->password = password;
+}
+
+
+int User::getTotalNum() const
+{
+    return totalNum;
+}
+
+void User::setTotalNum(int totalNum)
+{
+    this->totalNum = totalNum;
 }
 

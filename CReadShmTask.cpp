@@ -49,7 +49,12 @@ void CReadShmTask::work()
         cout << "CLoginTask:head.crc clientFd=" << head.crc << endl;
         auto task = CTaskFactory::getInstance()->createTask(head.crc, head.bussinessType, shmBuffer, sizeof(HEAD) + head.bussinessLength);
         //任务给到线程池
-        pool->pushTask(move(task));
+        if (task) {
+            pool->pushTask(move(task));
+        }
+        else {
+            cout << "无法创建出目标任务,head.bussinessType=" << head.bussinessType << endl;
+        }
     }
     else {
         cout << "目标区域index=" << index << ",区域索引值indexArr[index]=" << indexArr[index] << endl;

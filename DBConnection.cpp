@@ -1,14 +1,15 @@
 #include "DBConnection.h"
 DBConnection* DBConnection::instance=nullptr;
 pthread_mutex_t DBConnection::mutex;
+pthread_mutex_t DBConnection::createMutex;
 DBConnection* DBConnection::getInstance()
 {
     //线程锁，保证饿汉式线程安全
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(&createMutex);
     if (instance == nullptr) {
         instance = new DBConnection();
     }
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&createMutex);
     return instance;
 
 }
@@ -16,6 +17,7 @@ DBConnection* DBConnection::getInstance()
 DBConnection::DBConnection()
 {
     pthread_mutex_init(&mutex, NULL);
+    pthread_mutex_init(&createMutex, NULL);
     //获取驱动单例
     this->driver = sql::mysql::get_driver_instance();
     this->path = "tcp://" + localhost + ":" + localport+"?useUnicode=true&characterEncoding=UTF-8";

@@ -3,11 +3,14 @@
 CAgreeLeaveTask::CAgreeLeaveTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
+	headBack.bussinessType = 12;
+	headBack.bussinessLength = sizeof(bodyBack);
+	headBack.crc = this->clientFd;
 }
 
 void CAgreeLeaveTask::work()
 {
-	cout << "CCarEntryTask正在执行" << endl;
+	cout << "CAgreeLeaveTask正在执行" << endl;
 	//数据解析
 	HEAD head;
 	AgreeLeaveRequest request;
@@ -38,7 +41,7 @@ void CAgreeLeaveTask::work()
 			strcpy(bodyBack.message, "缴费信息保存成功");
 		}
 		else {
-			cout << "缴费信息保存失败" << endl;
+			cout << "缴费信息保存失败sql=" << sql2 << endl;
 			bodyBack.flag = 0;
 			strcpy(bodyBack.message, "缴费信息保存失败");
 		}
@@ -48,6 +51,9 @@ void CAgreeLeaveTask::work()
 		bodyBack.flag = 0;
 		strcpy(bodyBack.message, "未找到出入场记录");
 	}
+	cout << "+++++++CAgreeLeaveBack详细信息+++++++" << endl;
+	cout << "flag=" << bodyBack.flag << " message=" << bodyBack.message << endl;
+	cout << "++++++++++++++++++++" << endl;
 	//准备数据缓冲区
 	char buffer[sizeof(HEAD) + sizeof(bodyBack)];
 	memcpy(buffer, &headBack, sizeof(HEAD));

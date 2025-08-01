@@ -87,6 +87,8 @@
     <ClCompile Include="CTaskFactory.cpp" />
     <ClCompile Include="CThreadPool.cpp" />
     <ClCompile Include="CTools.cpp" />
+    <ClCompile Include="CUpdateCarNumberTask.cpp" />
+    <ClCompile Include="CUploadVideoTask.cpp" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DBConnection.cpp" />
     <ClCompile Include="FileInfo.cpp" />
@@ -100,6 +102,9 @@
     <ClCompile Include="RegisterTask.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserOperation.cpp" />
+    <ClCompile Include="Video.cpp" />
+    <ClCompile Include="VideoOperation.cpp" />
+    <ClCompile Include="VpView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAgreeLeaveTask.h" />
@@ -114,6 +119,8 @@
     <ClInclude Include="CTaskFactory.h" />
     <ClInclude Include="CThreadPool.h" />
     <ClInclude Include="CTools.h" />
+    <ClInclude Include="CUpdateCarNumberTask.h" />
+    <ClInclude Include="CUploadVideoTask.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DBConnection.h" />
     <ClInclude Include="FileInfo.h" />
@@ -127,6 +134,9 @@
     <ClInclude Include="RegisterTask.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserOperation.h" />
+    <ClInclude Include="Video.h" />
+    <ClInclude Include="VideoOperation.h" />
+    <ClInclude Include="VpView.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
