@@ -60,6 +60,15 @@ CBaseOperation* OperationFactory::createRepository(RepositoryType type)
             pthread_mutex_unlock(&mutex);
             return vdOp;
         }
+        case OperationFactory::RepositoryType::LOG:
+        {
+            pthread_mutex_lock(&mutex);
+            if (logOp == nullptr) {
+                logOp = new LogOperation();
+            }
+            pthread_mutex_unlock(&mutex);
+            return logOp;
+        }
         default:
             std::cout << "未知RepositoryType=" << (int)type << endl;
             break;

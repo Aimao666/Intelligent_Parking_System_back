@@ -44,7 +44,6 @@ void CReadShmTask::work()
         ipc->sem_p(semid, IPCManager::INDEX_LOCK_SEM);
         memcpy((char*)shmaddr + sizeof(int) * index, indexArr + index, sizeof(int));
         ipc->sem_v(semid, IPCManager::INDEX_LOCK_SEM);
-        HEAD head;
         memcpy(&head, shmBuffer, sizeof(HEAD));
         cout << "CLoginTask:head.crc clientFd=" << head.crc << endl;
         auto task = CTaskFactory::getInstance()->createTask(head.crc, head.bussinessType, shmBuffer, sizeof(HEAD) + head.bussinessLength);

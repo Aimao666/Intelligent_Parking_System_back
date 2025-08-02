@@ -11,6 +11,5 @@ private:
 
 	// 通过 CBaseTask 继承
 	virtual void work() override;
-	HEAD headBack;
 	CommonBack bodyBack;
 };

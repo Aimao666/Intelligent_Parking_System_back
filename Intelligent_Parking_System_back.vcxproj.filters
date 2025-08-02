@@ -89,6 +89,22 @@
     <ClCompile Include="CUpdateCarNumberTask.cpp">
       <Filter>task</Filter>
     </ClCompile>
+    <ClCompile Include="LogInfo.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="LogOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CVideoDateTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CVideoListTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CUploadPlayinfoTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="CParkingInfoTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -181,6 +197,22 @@
     <ClInclude Include="CUpdateCarNumberTask.h">
       <Filter>task</Filter>
     </ClInclude>
+    <ClInclude Include="LogInfo.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="LogOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="CVideoDateTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CVideoListTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CUploadPlayinfoTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="CParkingInfoTask.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">

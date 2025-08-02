@@ -11,7 +11,6 @@ CFileUploadTask::CFileUploadTask(int fd, char* data, size_t len)
 void CFileUploadTask::work()
 {
 	cout << "CFileUploadTask正在执行" << endl;
-	HEAD head;
 	FileInfoRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), sizeof(request));

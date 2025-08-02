@@ -9,8 +9,7 @@ public:
 	{
 		ENTRY = 1,
 		LEAVE,
-		SNAP,
-		FIRSTFRAME
+		SNAP
 	};
 	Picture() = default;
 	Picture(string name, string khdPath, string fwqPath, string createtime, PICTYPE type, string account);

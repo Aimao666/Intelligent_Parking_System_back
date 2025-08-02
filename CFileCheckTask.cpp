@@ -3,6 +3,10 @@
 CFileCheckTask::CFileCheckTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
+	//准备返回包
+	headBack.bussinessLength = sizeof(bodyBack);
+	headBack.bussinessType = 26;
+	headBack.crc = this->clientFd;
 }
 
 
@@ -11,7 +15,6 @@ void CFileCheckTask::work()
 {
 	cout << "CFileCheckTask正在执行" << endl;
 	//解析包
-	HEAD head;
 	FileCheckRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), sizeof request);
@@ -35,12 +38,6 @@ void CFileCheckTask::work()
 		Picture pic(fileInfo->getFilename(), fileInfo->getKhdPath(), filePath, fileInfo->getCreatetime(), 
 			(Picture::PICTYPE)fileInfo->getType(),fileInfo->getAccount());
 		res = op->doInsert(&pic);
-		//准备返回包
-		HEAD headBack;
-		FileSuccessBack bodyBack;
-		headBack.bussinessLength = sizeof(bodyBack);
-		headBack.bussinessType = 26;
-		headBack.crc = this->clientFd;
 		strcpy(bodyBack.filename, fileInfo->getFilename().c_str());
 		if (res) {
 			bodyBack.flag = 1;
@@ -77,8 +74,14 @@ int CFileCheckTask::checkFile(FileInfo* fileInfo) {
 		if (totalLength == fileInfo->getTotalLength()) {
 			//总字节数校验通过
 			//3.文件拼接
-			string filePath = DataManager::basePath + fileInfo->getAccount() + "/pictures/" +
-				fileInfo->getFilename();
+			string dirPath = DataManager::basePath + fileInfo->getAccount() + "/pictures/";
+			string filePath = dirPath + fileInfo->getFilename();
+			if (CTools::createDirectoryRecursive(dirPath)) {
+				cout << "创建目录成功:" << dirPath << endl;
+			}
+			else{
+				perror("mkdir err");
+			}
 			int wfd = open(filePath.c_str(), O_WRONLY | O_CREAT, 0777);
 			if (wfd == -1) {
 				perror("文件拼接open err");
@@ -113,7 +116,6 @@ int CFileCheckTask::checkFile(FileInfo* fileInfo) {
 				if (index == 100) {
 					//准备下一个丢包返回包
 					//3.构造文件丢失返回包给前置
-					HEAD headBack;
 					FileBack bodyBack;
 					headBack.bussinessLength = sizeof(bodyBack);
 					headBack.bussinessType = 24;
@@ -134,7 +136,6 @@ int CFileCheckTask::checkFile(FileInfo* fileInfo) {
 			}
 		}
 		//3.构造文件丢失返回包给前置
-		HEAD headBack;
 		FileBack bodyBack;
 		headBack.bussinessLength = sizeof(bodyBack);
 		headBack.bussinessType = 24;

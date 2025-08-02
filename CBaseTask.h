@@ -27,5 +27,7 @@ protected:
 	char* taskData;   // 原始请求数据（包含请求头+请求体）
 	size_t dataLen;   // 数据总长度
 	int shmIndex;//要读的共享内存下标，或者说信号量下标
+
+	HEAD head,headBack;//请求头
 };
 

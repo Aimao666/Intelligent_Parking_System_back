@@ -55,7 +55,6 @@ int main()
         //    //拷贝数据
         //    char shmBuffer[MAX_BODY_LENGTH];//实际内存块
         //    memcpy(shmBuffer, (char*)shmaddr + sizeof(int)* block_num + index * MAX_BODY_LENGTH, MAX_BODY_LENGTH);
-        //    HEAD head;
         //    memcpy(&head, shmBuffer, sizeof(HEAD));
         //    int bodyLen = head.bussinessLength;
         //    auto task = CTaskFactory::getInstance()->createTask(head.crc, head.bussinessType, shmBuffer, sizeof(HEAD) + head.bussinessLength);

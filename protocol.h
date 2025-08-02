@@ -134,7 +134,7 @@ typedef struct VideoListRequest {
 typedef struct VideoData {
 	int videoId;//视频id
 	char createtime[24];//视频创建时间 
-	char name[40];//视频名称
+	char vname[40];//视频名称
 	char videoPath[255];//客户端视频路径
 	char totaltime[10];//视频总时长 格式为3:23:59
 	char currentPlaytime[10];//当前播放时长 格式为3:23:59

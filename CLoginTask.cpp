@@ -3,13 +3,15 @@
 CLoginTask::CLoginTask(int fd, char* data, size_t len)
 	:CBaseTask(fd,data,len)
 {
+	headBack.bussinessType = 2;
+	headBack.bussinessLength = sizeof(bodyBack);
+	headBack.crc = this->clientFd;
 }
 
 void CLoginTask::work()
 {
 	cout << "CLoginTask正在执行" << endl;
 	//数据解析
-	HEAD head;
 	LoginRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), head.bussinessLength);
@@ -20,11 +22,6 @@ void CLoginTask::work()
 	unique_ptr<vector<unique_ptr<User>>>vec = userop->query<User>("select * from " + userop->getTablename() + " where account = '" +
 		request.account + "' and `password` = '" + request.password + "';");
 	//准备好报文发给前置服务器，只有前置服务器才有网，才能发给客户端
-	HEAD headBack;
-	CommonBack bodyBack;
-	headBack.bussinessType = 2;
-	headBack.bussinessLength = sizeof(CommonBack);
-	headBack.crc = this->clientFd;
 	cout << "CLoginTask:clientFd=" << clientFd << " headBack.crc=" << headBack.crc << endl;
 	if (vec != nullptr && vec->size() > 0) {
 		bodyBack.flag = 1;

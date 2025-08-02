@@ -3,13 +3,15 @@
 CUpdateCarNumberTask::CUpdateCarNumberTask(int fd, char* data, size_t len) 
 	:CBaseTask(fd, data, len)
 {
+	headBack.bussinessLength = sizeof(bodyBack);
+	headBack.bussinessType = 28;
+	headBack.crc = this->clientFd;
 }
 
 void CUpdateCarNumberTask::work()
 {
     cout << "CUpdateCarNumberTask修改车牌请求" << endl;
 	//数据解析
-	HEAD head;
 	UpdateCarNumberRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), head.bussinessLength);

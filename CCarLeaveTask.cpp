@@ -12,7 +12,6 @@ void CCarLeaveTask::work()
 {
 	cout << "CCarLeaveTask正在执行" << endl;
 	//数据解析
-	HEAD head;
 	CarLeaveRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), head.bussinessLength);

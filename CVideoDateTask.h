@@ -1,14 +1,14 @@
 #pragma once
 #include "CBaseTask.h"
-class CCarLeaveTask :
+class CVideoDateTask :
     public CBaseTask
 {
 public:
-	CCarLeaveTask(int fd, char* data, size_t len);
-	~CCarLeaveTask() = default;
+	CVideoDateTask(int fd, char* data, size_t len);
+	~CVideoDateTask() = default;
 private:
 
 	// 通过 CBaseTask 继承
 	virtual void work() override;
-	CarLeaveBack bodyBack;
+	VideoDateBack bodyBack;
 };

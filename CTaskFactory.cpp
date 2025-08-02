@@ -47,6 +47,26 @@ unique_ptr<CBaseTask> CTaskFactory::createTask(int clientFd, int bussinessType, 
 		unique_ptr<CUploadVideoTask> task(new CUploadVideoTask(clientFd, data, length));
 		return task;
 	}
+	case 15://获取服务器所存储的视频日期 
+	{
+		unique_ptr<CVideoDateTask> task(new CVideoDateTask(clientFd, data, length));
+		return task;
+	}
+	case 17://获取视频播放列表请求体 
+	{
+		unique_ptr<CVideoListTask> task(new CVideoListTask(clientFd, data, length));
+		return task;
+	}
+	case 19://上传视频播放信息
+	{
+		unique_ptr<CUploadPlayinfoTask> task(new CUploadPlayinfoTask(clientFd, data, length));
+		return task;
+	}
+	case 21://车辆信息查询请求体
+	{
+		unique_ptr<CParkingInfoTask> task(new CParkingInfoTask(clientFd, data, length));
+		return task;
+	}
 	case 23://文件上传单个碎片包
 	{
 		unique_ptr<CFileUploadTask> task(new CFileUploadTask(clientFd, data, length));
