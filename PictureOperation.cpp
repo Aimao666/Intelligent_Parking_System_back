@@ -24,7 +24,7 @@ int PictureOperation::doInsert(void* object)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in insert: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
@@ -60,7 +60,7 @@ int PictureOperation::doUpdate(void* object)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in update: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚

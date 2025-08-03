@@ -7,6 +7,7 @@
 #include "CTools.h"
 #include "DataManager.h"
 #include "OperationFactory.h"
+#include <string>
 using namespace std;
 class CBaseTask
 {

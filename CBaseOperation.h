@@ -4,6 +4,8 @@
 #include <cppconn/resultset.h>
 #include <vector>
 #include <memory>
+#include <string>
+using namespace std;
 class CBaseOperation {
 public:
     CBaseOperation();
@@ -12,15 +14,15 @@ public:
     // 通用查询模板方法
     //查询到或者没查到都会返回容器智能指针，但是如果报了SQLException则返回nullptr
     template <typename T>
-    std::unique_ptr<std::vector<std::unique_ptr<T>>> query(const std::string& sql = "") {
+    std::unique_ptr<std::vector<std::unique_ptr<T>>> query(const std::string sql = "") {
         std::unique_ptr<std::vector<std::unique_ptr<T>>>results(new std::vector<std::unique_ptr<T>>());
         //sql为空则走默认的全表查询，不为空则sql是什么就执行什么，千万不要传错sql了
         std::string finalSql = sql.empty() ? "SELECT * FROM " + tablename : sql;
-
         sql::ResultSet* rs = nullptr;
+        sql::PreparedStatement* pstmt = nullptr;
         pthread_mutex_lock(&DBConnection::mutex);
-        sql::PreparedStatement* pstmt = conn->prepareStatement(finalSql);
         try {
+            pstmt = conn->prepareStatement(finalSql);
             rs = pstmt->executeQuery();
             while (rs->next()) {
                 std::unique_ptr<T>obj(new T());
@@ -33,6 +35,13 @@ public:
         }
         catch (sql::SQLException& e) {
             std::cerr << "SQL Exception in query: " << e.what() << std::endl;
+            delete rs;
+            delete pstmt;
+            pthread_mutex_unlock(&DBConnection::mutex);
+            return nullptr;
+        }
+        catch (exception& e) {
+            std::cerr << "exception in query: " << e.what() << std::endl;
             delete rs;
             delete pstmt;
             pthread_mutex_unlock(&DBConnection::mutex);

@@ -69,6 +69,15 @@ CBaseOperation* OperationFactory::createRepository(RepositoryType type)
             pthread_mutex_unlock(&mutex);
             return logOp;
         }
+        case OperationFactory::RepositoryType::PARKING_PICTURE_VIEW:
+        {
+            pthread_mutex_lock(&mutex);
+            if (ppvOp == nullptr) {
+                ppvOp = new PPViewOperation();
+            }
+            pthread_mutex_unlock(&mutex);
+            return ppvOp;
+        }
         default:
             std::cout << "未知RepositoryType=" << (int)type << endl;
             break;

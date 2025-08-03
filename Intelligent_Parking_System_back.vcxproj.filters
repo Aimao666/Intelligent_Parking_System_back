@@ -104,7 +104,15 @@
     <ClCompile Include="CUploadPlayinfoTask.cpp">
       <Filter>task</Filter>
     </ClCompile>
-    <ClCompile Include="CParkingInfoTask.cpp" />
+    <ClCompile Include="CParkingInfoTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkingPictureView.cpp">
+      <Filter>poco</Filter>
+    </ClCompile>
+    <ClCompile Include="PPViewOperation.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -212,7 +220,15 @@
     <ClInclude Include="CUploadPlayinfoTask.h">
       <Filter>task</Filter>
     </ClInclude>
-    <ClInclude Include="CParkingInfoTask.h" />
+    <ClInclude Include="CParkingInfoTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkingPictureView.h">
+      <Filter>poco</Filter>
+    </ClInclude>
+    <ClInclude Include="PPViewOperation.h">
+      <Filter>Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">

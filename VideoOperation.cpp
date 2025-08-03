@@ -26,7 +26,7 @@ int VideoOperation::doInsert(void* object)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in insert: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
@@ -56,7 +56,7 @@ int VideoOperation::doUpdate(void* object)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in update: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
@@ -98,7 +98,7 @@ void VideoOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
             ptr->setPname(rs->getString(i));
         }
         else if (colName == "ppath") {
-            ptr->setPname(rs->getString(i));
+            ptr->setPpath(rs->getString(i));
         }
         else if (colName == "totaltime") {
             ptr->setTotaltime(rs->getString(i));

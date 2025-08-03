@@ -3,9 +3,7 @@
 CCarLeaveTask::CCarLeaveTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
-	headBack.bussinessType = 10;
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.crc = this->clientFd;
 }
 
 void CCarLeaveTask::work()
@@ -42,19 +40,24 @@ void CCarLeaveTask::work()
 			time_t leaveTimeStamp = CTools::convertTimeStr2TimeStamp(parkingInfo.getLeaveTime());//时间字符串转时间戳
 			time_t entryTimeStamp = CTools::convertTimeStr2TimeStamp(parkingInfo.getEntryTime());
 			time_t diffTime = leaveTimeStamp - entryTimeStamp;//时间差
+			cout << "时间差=" << diffTime << endl;
 			int costHour = (diffTime + 3599) / 3600;//消费时长，小时计
 			//计算应付金额
 			parkingInfo.setDueCost(costHour * 5);//每小时5元
 			int rows = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING)->doUpdate(&parkingInfo);
-			bodyBack.dueCost = costHour * 5;
-			strcpy(bodyBack.carNumber, request.carNumber);
-			strcpy(bodyBack.entryTime, parkingInfo.getEntryTime().c_str());
-			bodyBack.mesc = diffTime;
 			if (rows > 0) {
 				cout << "出场信息保存成功" << endl;
+				bodyBack.dueCost = costHour * 5;
+				strcpy(bodyBack.carNumber, request.carNumber);
+				strcpy(bodyBack.entryTime, parkingInfo.getEntryTime().c_str());
+				bodyBack.mesc = diffTime;
 			}
 			else {
 				cout << "出场信息保存失败" << endl;
+				bodyBack.dueCost = 0;
+				strcpy(bodyBack.carNumber, request.carNumber);
+				strcpy(bodyBack.entryTime, "");
+				bodyBack.mesc = 0;
 			}
 		}
 		else {

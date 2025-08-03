@@ -40,7 +40,7 @@ UserOperation::UserOperation()
 //        delete pstmt;
 //        return vec;//直接返回就行vec会被视为将亡值触发移动构造
 //    }
-//    catch(SQLException e){
+//    catch(SQLException& e){
 //        std::cerr << "SQL Exception: " << e.what() << std::endl;
 //        //释放资源
 //        delete rs;
@@ -90,12 +90,18 @@ int UserOperation::doInsert(void* object)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in insert: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
             conn->setAutoCommit(true);//关闭事务
         }
+        delete pstmt;
+        pthread_mutex_unlock(&DBConnection::mutex);
+        return 0;
+    }
+    catch (exception& e) {
+        std::cerr << "exception in insert: " << e.what() << std::endl;
         delete pstmt;
         pthread_mutex_unlock(&DBConnection::mutex);
         return 0;
@@ -121,12 +127,18 @@ int UserOperation::doUpdate(void* object)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in update: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
             conn->setAutoCommit(true);//关闭事务
         }
+        delete pstmt;
+        pthread_mutex_unlock(&DBConnection::mutex);
+        return 0;
+    }
+    catch (exception& e) {
+        std::cerr << "exception in update: " << e.what() << std::endl;
         delete pstmt;
         pthread_mutex_unlock(&DBConnection::mutex);
         return 0;

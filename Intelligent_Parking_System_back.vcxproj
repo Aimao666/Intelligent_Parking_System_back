@@ -103,8 +103,10 @@
     <ClCompile Include="OperationFactory.cpp" />
     <ClCompile Include="Parking.cpp" />
     <ClCompile Include="ParkingOperation.cpp" />
+    <ClCompile Include="ParkingPictureView.cpp" />
     <ClCompile Include="Picture.cpp" />
     <ClCompile Include="PictureOperation.cpp" />
+    <ClCompile Include="PPViewOperation.cpp" />
     <ClCompile Include="RegisterTask.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserOperation.cpp" />
@@ -140,8 +142,10 @@
     <ClInclude Include="OperationFactory.h" />
     <ClInclude Include="Parking.h" />
     <ClInclude Include="ParkingOperation.h" />
+    <ClInclude Include="ParkingPictureView.h" />
     <ClInclude Include="Picture.h" />
     <ClInclude Include="PictureOperation.h" />
+    <ClInclude Include="PPViewOperation.h" />
     <ClInclude Include="protocol.h" />
     <ClInclude Include="RegisterTask.h" />
     <ClInclude Include="User.h" />

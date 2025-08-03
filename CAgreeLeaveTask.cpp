@@ -3,9 +3,7 @@
 CAgreeLeaveTask::CAgreeLeaveTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
-	headBack.bussinessType = 12;
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.crc = this->clientFd;
 }
 
 void CAgreeLeaveTask::work()
@@ -27,22 +25,29 @@ void CAgreeLeaveTask::work()
 	if (resVec1->size() > 0) {
 		cout << "找到入场记录" << endl;
 		auto& tmpParking = resVec1->front();
-		parkingInfo.setId(tmpParking->getId());
-		parkingInfo.setReallyCost(request.reallyCost);
-		auto parkOp = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING);
-		string tablename = parkOp->getTablename();
-		string sql2 = "update " + tablename + " set reallyCost = " + CTools::itos(parkingInfo.getReallyCost()) +
-			" where id = " + CTools::itos(parkingInfo.getId());
-		int rows = parkOp->executeUpdate(sql2);
-		if (rows > 0) {
-			cout << "缴费信息保存成功" << endl;
-			bodyBack.flag = 1;
-			strcpy(bodyBack.message, "缴费信息保存成功");
+		if (tmpParking->getReallyCost() != 0) {
+			cout << "缴费信息保存失败，已缴费" << endl;
+			bodyBack.flag = 0;
+			strcpy(bodyBack.message, "缴费信息保存失败，已缴费");
 		}
 		else {
-			cout << "缴费信息保存失败sql=" << sql2 << endl;
-			bodyBack.flag = 0;
-			strcpy(bodyBack.message, "缴费信息保存失败");
+			parkingInfo.setId(tmpParking->getId());
+			parkingInfo.setReallyCost(request.reallyCost);
+			auto parkOp = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING);
+			string tablename = parkOp->getTablename();
+			string sql2 = "update " + tablename + " set reallyCost = " + CTools::itos(parkingInfo.getReallyCost()) +
+				" where id = " + CTools::itos(parkingInfo.getId());
+			int rows = parkOp->executeUpdate(sql2);
+			if (rows > 0) {
+				cout << "缴费信息保存成功" << endl;
+				bodyBack.flag = 1;
+				strcpy(bodyBack.message, "缴费信息保存成功");
+			}
+			else {
+				cout << "缴费信息保存失败sql=" << sql2 << endl;
+				bodyBack.flag = 0;
+				strcpy(bodyBack.message, "缴费信息保存失败");
+			}
 		}
 	}
 	else {

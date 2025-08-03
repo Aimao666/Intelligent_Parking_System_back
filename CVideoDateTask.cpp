@@ -4,8 +4,6 @@ CVideoDateTask::CVideoDateTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
     headBack.bussinessLength = sizeof(bodyBack);
-    headBack.bussinessType = 16;
-    headBack.crc = this->clientFd;
 }
 
 void CVideoDateTask::work()
@@ -40,7 +38,7 @@ void CVideoDateTask::work()
             strcpy(bodyBack.dates[bodyBack.count++], rs->getString("date").c_str());
         }
     }
-    catch (sql::SQLException e) {
+    catch (sql::SQLException& e) {
         cerr << "SQLException:" << e.what() << "\nsql=" << sql << endl;
         delete rs;
         delete pstmt;

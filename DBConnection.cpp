@@ -27,7 +27,6 @@ DBConnection::DBConnection()
     this->conn.reset(driver->connect(path, localuser, localpassword));
     //设置连接数据库
     this->conn->setSchema(localschema);
-
 }
 DBConnection::~DBConnection()
 {

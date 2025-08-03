@@ -209,8 +209,9 @@ void* CThreadPool::thread_function(void* arg)
 		try {
 			task->work(); // 捕获任务执行中的异常
 		}
-		catch (sql::SQLException e) {
-			std::cerr << "数据库异常" << e.what() << std::endl;
+		catch (sql::SQLException& e) {
+			std::cerr << "数据库异常:" << e.what() << std::endl;
+
 		}
 		catch (std::exception& e) {
 			std::cerr << "任务执行异常: " << e.what() << std::endl;
@@ -223,11 +224,11 @@ void* CThreadPool::thread_function(void* arg)
 		pool->checkDestroyCondition();
 		pool->unlock();
 
-		/*cout << "-----------------------------" << endl;
+		cout << "-----------------------------" << endl;
 		cout << "线程工作后 任务数：" << pool->taskQueue.size() << endl;
 		cout << "线程工作后 忙碌链表线程数：" << pool->busyList.size() << endl;
 		cout << "线程工作后 空闲链表线程数：" << pool->idleList.size() << endl;
-		cout << "-----------------------------" << endl;*/
+		cout << "-----------------------------" << endl;
 	}
 
 	return nullptr;

@@ -1,6 +1,6 @@
 #include "User.h"
 
-User::User(string account, string username, int totalNum)
+User::User(string account, string password, int totalNum)
     :account(account),password(password), totalNum(totalNum)
 {
 }

@@ -4,8 +4,6 @@ CUpdateCarNumberTask::CUpdateCarNumberTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.bussinessType = 28;
-	headBack.crc = this->clientFd;
 }
 
 void CUpdateCarNumberTask::work()

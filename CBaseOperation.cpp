@@ -20,7 +20,7 @@ int CBaseOperation::doDelete(const std::string& whereSql)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in delete: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚
@@ -56,7 +56,7 @@ int CBaseOperation::executeUpdate(string sql)
         rs = pstmt->executeUpdate();
         conn->commit();//事务提交
     }
-    catch (SQLException e) {
+    catch (SQLException& e) {
         std::cerr << "SQL Exception in executeUpdate: " << e.what() << std::endl;
         if (this->conn != nullptr) {
             conn->rollback();//事务回滚

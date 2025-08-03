@@ -3,9 +3,7 @@
 CCarEntryTask::CCarEntryTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
-	headBack.bussinessType = 8;
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.crc = this->clientFd;
 }
 
 void CCarEntryTask::work()
@@ -25,9 +23,10 @@ void CCarEntryTask::work()
 	int remainingSpaces = -1;
 	int occupiedSpaces = -1;
 	pthread_mutex_lock(&DBConnection::mutex);
-	sql::PreparedStatement* pstmt = DBConnection::getInstance()->getConnection()->prepareStatement(sql4);
-	ResultSet* rs;
+	ResultSet* rs = nullptr;
+	sql::PreparedStatement* pstmt = nullptr;
 	try {
+		pstmt = DBConnection::getInstance()->getConnection()->prepareStatement(sql4);
 		rs = pstmt->executeQuery();
 		if (rs->next()) {
 			remainingSpaces = rs->getInt("remainingSpaces");

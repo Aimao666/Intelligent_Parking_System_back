@@ -4,8 +4,6 @@ CParkingInfoTask::CParkingInfoTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.bussinessType = 22;
-	headBack.crc = this->clientFd;
 }
 
 void CParkingInfoTask::work()
@@ -15,23 +13,53 @@ void CParkingInfoTask::work()
 	memcpy(&head, taskData, sizeof(HEAD));
 	ParkingInfoRequest request;
 	memcpy(&request, taskData + sizeof(HEAD), sizeof(request));
-	CBaseOperation* parkop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING);
-	CBaseOperation* picop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PICTURE);
-	string sql = "select * from " + parkop->getTablename() + " where account='" + string(request.account) + "'";
+	CBaseOperation* ppvop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::PARKING_PICTURE_VIEW);
+	string prefix1 = "select * from ";
+	string prefix2 = "select count(*) from ";
+	string sql = ppvop->getTablename() + " where account='" + string(request.account) + "'";
 	if (strcmp(request.carNumber, "")) {
-		sql = sql + " and carNumber like '%" + request.carNumber + "%'";
+		sql = sql + " and carNumber like '%" + string(request.carNumber) + "%'";
 	}
 	if (strcmp(request.entryTime, "")) {
-		sql = sql + " and entryTime >= '" + request.entryTime + "'";
+		sql = sql + " and entryTime >= '" + string(request.entryTime) + "'";
 	}
 	if (strcmp(request.leaveTime, "")) {
-		sql = sql + " and leaveTime <= '" + request.leaveTime + "'";
+		sql = sql + " and leaveTime <= '" + string(request.leaveTime) + "'";
 	}
-	bodyBack.currentPage = request.currentPage;
+	//查询总数据数
+	string countsql = sql;
+	countsql = prefix2 + countsql;
+	cout << "countsql=" << countsql << endl;
+	pthread_mutex_lock(&DBConnection::mutex);
+	sql::PreparedStatement* pstmt = nullptr;
+	sql::ResultSet* rs;
+	int count = 0;
+	try{
+		pstmt = DBConnection::getInstance()->getConnection()->prepareStatement(countsql);
+		rs = pstmt->executeQuery(); 
+		if(rs->next()) {
+			count = rs->getInt(1);//总数据量
+		}
+	}
+	catch (SQLException& e) {
+		cerr << "SQLException:" << e.what() << endl;
+		cerr << "sql=" << countsql << endl;
+		delete rs;
+		delete pstmt;
+		pthread_mutex_unlock(&DBConnection::mutex);
+	}
+	delete rs;
+	delete pstmt;
+	pthread_mutex_unlock(&DBConnection::mutex);
+
+
+	//分页查询
 	int pageSize = sizeof(bodyBack.parkingInfoDataArr) / sizeof(ParkingInfoData);//每一页的数据量
+	bodyBack.totalPage = (count + pageSize - 1) / pageSize;//总页数
 	int offset = (request.currentPage - 1) * pageSize;//偏移量
-	sql = sql + " limit " + CTools::itos(pageSize) + " offset " + CTools::itos(offset);
-	auto resVec = parkop->query<Parking>(sql);
+	sql = prefix1 + sql + " limit " + CTools::itos(pageSize) + " offset " + CTools::itos(offset);
+	cout << "sql=" << sql << endl;
+	auto resVec = ppvop->query<ParkingPictureView>(sql);
 	bodyBack.num = 0;
 	if (resVec) {
 		bodyBack.num = resVec->size();
@@ -43,27 +71,25 @@ void CParkingInfoTask::work()
 			strcpy(bodyBack.parkingInfoDataArr[i].carNumber, ele->getCarNumber().c_str());
 			strcpy(bodyBack.parkingInfoDataArr[i].entryTime, ele->getEntryTime().c_str());
 			strcpy(bodyBack.parkingInfoDataArr[i].leaveTime, ele->getLeaveTime().c_str());
-			auto picVec = picop->query<Picture>("select * from " + picop->getTablename() + " where id='" + 
-				CTools::itos(ele->getEntryPicId()) + "' or id='" + CTools::itos(ele->getLeavePicId()) + "';");
-			if (picVec) {
-				for (int j = 0; j < picVec->size(); ++j) {
-					auto& pic = (*picVec)[j];
-					if (pic->getId() == ele->getEntryPicId()) {
-						strcpy(bodyBack.parkingInfoDataArr[i].entryPicName, pic->getName().c_str());
-						strcpy(bodyBack.parkingInfoDataArr[i].entryPicPath, pic->getKhdPath().c_str());
-					}
-					else if (pic->getId() == ele->getLeavePicId()) {
-						strcpy(bodyBack.parkingInfoDataArr[i].leavePicName, pic->getName().c_str());
-						strcpy(bodyBack.parkingInfoDataArr[i].leavePicPath, pic->getKhdPath().c_str());
-					}
-				}
-			}
+			strcpy(bodyBack.parkingInfoDataArr[i].entryPicName, ele->getEntryPicName().c_str());
+			strcpy(bodyBack.parkingInfoDataArr[i].entryPicPath, ele->getEntryPicKhdPath().c_str());
+			strcpy(bodyBack.parkingInfoDataArr[i].leavePicName, ele->getLeavePicName().c_str());
+			strcpy(bodyBack.parkingInfoDataArr[i].leavePicPath, ele->getLeavePicKhdPath().c_str());
 		}
 	}
 
 	cout << "+++++++ParkingInfoBack详细信息+++++++" << endl;
-	cout << "请求页=" << bodyBack.currentPage << " 有效数据个数=" << bodyBack.num << endl;
+	cout << "请求页=" << request.currentPage << "总页数=" << bodyBack.totalPage << " 有效数据个数=" << bodyBack.num << endl;
 	cout << "sql=" << sql << endl;
+	for (int i = 0; i < bodyBack.num; i++) {
+		cout << "++++++++++++++++++++" << endl;
+		cout << "id=" << bodyBack.parkingInfoDataArr[i].id <<" carNumber=" << bodyBack.parkingInfoDataArr[i].carNumber << endl;
+		cout << "entryTime=" << bodyBack.parkingInfoDataArr[i].entryTime << " leaveTime=" << bodyBack.parkingInfoDataArr[i].leaveTime << endl;
+		cout << "leavePicName=" << bodyBack.parkingInfoDataArr[i].leavePicName << " leavePicPath=" << bodyBack.parkingInfoDataArr[i].leavePicPath << endl;
+		cout << "entryPicName=" << bodyBack.parkingInfoDataArr[i].entryPicName << " entryPicPath=" << bodyBack.parkingInfoDataArr[i].entryPicPath << endl;
+		cout << "dueCost=" << bodyBack.parkingInfoDataArr[i].dueCost << " reallyCost=" << bodyBack.parkingInfoDataArr[i].reallyCost << endl;
+		cout << "++++++++++++++++++++" << endl;
+	}
 	cout << "++++++++++++++++++++" << endl;
 
 	//准备数据缓冲区

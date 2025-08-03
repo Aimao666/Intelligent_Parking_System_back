@@ -5,8 +5,6 @@ CFileCheckTask::CFileCheckTask(int fd, char* data, size_t len)
 {
 	//准备返回包
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.bussinessType = 26;
-	headBack.crc = this->clientFd;
 }
 
 
@@ -117,6 +115,7 @@ int CFileCheckTask::checkFile(FileInfo* fileInfo) {
 					//准备下一个丢包返回包
 					//3.构造文件丢失返回包给前置
 					FileBack bodyBack;
+					HEAD headBack;
 					headBack.bussinessLength = sizeof(bodyBack);
 					headBack.bussinessType = 24;
 					headBack.crc = clientFd;
@@ -137,6 +136,7 @@ int CFileCheckTask::checkFile(FileInfo* fileInfo) {
 		}
 		//3.构造文件丢失返回包给前置
 		FileBack bodyBack;
+		HEAD headBack;
 		headBack.bussinessLength = sizeof(bodyBack);
 		headBack.bussinessType = 24;
 		headBack.crc = clientFd;

@@ -4,9 +4,7 @@ RegisterTask::RegisterTask(int fd, char* data, size_t len)
 	:CBaseTask(fd,data,len)
 {
 	//准备好报文发给前置服务器，只有前置服务器才有网，才能发给客户端
-	headBack.bussinessType = 6;
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.crc = this->clientFd;
 }
 
 void RegisterTask::work()
@@ -21,7 +19,6 @@ void RegisterTask::work()
 	//数据库查询
 	CBaseOperation* userop = OperationFactory::getInstance()->createRepository(OperationFactory::RepositoryType::USER);
 	User user(request.account,"e10adc3949ba59abbe56e057f20f883e");
-
 	int res = userop->doInsert(&user);
 	if (res > 0) {
 		bodyBack.flag = 1;

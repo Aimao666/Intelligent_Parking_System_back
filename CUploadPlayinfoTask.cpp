@@ -4,8 +4,6 @@ CUploadPlayinfoTask::CUploadPlayinfoTask(int fd, char* data, size_t len)
 	:CBaseTask(fd, data, len)
 {
 	headBack.bussinessLength = sizeof(bodyBack);
-	headBack.bussinessType = 20;
-	headBack.crc = this->clientFd;
 }
 
 void CUploadPlayinfoTask::work()

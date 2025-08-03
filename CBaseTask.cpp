@@ -5,6 +5,9 @@ CBaseTask::CBaseTask(int fd, char* data, size_t len)
     if (len > 0) {
         taskData = new char[len];
         memcpy(taskData, data, len);
+        memcpy(&head, taskData, sizeof(HEAD));
+        headBack.bussinessType = head.bussinessType + 1;
+        headBack.crc = this->clientFd;
     }
     else {
         dataLen = 0;

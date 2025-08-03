@@ -3,9 +3,7 @@
 CUploadVideoTask::CUploadVideoTask(int fd, char* data, size_t len)
     :CBaseTask(fd, data, len)
 {
-    headBack.bussinessType = 14;
     headBack.bussinessLength = sizeof(bodyBack);
-    headBack.crc = this->clientFd;
 }
 
 void CUploadVideoTask::work()
