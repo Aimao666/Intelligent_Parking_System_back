@@ -9,7 +9,12 @@
 int main()
 {
     pthread_mutex_init(&DataManager::allFileMapMutex,NULL);
-    CThreadPool* pool = new CThreadPool(4);
+    if (!DBConnection::loadConfig("config.ini")) {
+        cerr << "配置文件加载失败" << endl;
+        return 0;
+    }
+
+    CThreadPool* pool = CThreadPool::getInstance();
     IPCManager* ipc = IPCManager::getInstance();
     cout << "sizeof(IPCManager)=" << sizeof(IPCManager) << endl;//36，只计入非静态成员变量的大小，所有函数都不计入
     int msgid = ipc->initMsg(20001);

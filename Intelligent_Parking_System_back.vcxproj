@@ -83,6 +83,7 @@
     <ClCompile Include="CFileCheckTask.cpp" />
     <ClCompile Include="CFileUploadTask.cpp" />
     <ClCompile Include="CLoginTask.cpp" />
+    <ClCompile Include="COffLineTask.cpp" />
     <ClCompile Include="CParkingInfoTask.cpp" />
     <ClCompile Include="CReadShmTask.cpp" />
     <ClCompile Include="CTaskFactory.cpp" />
@@ -108,6 +109,7 @@
     <ClCompile Include="PictureOperation.cpp" />
     <ClCompile Include="PPViewOperation.cpp" />
     <ClCompile Include="RegisterTask.cpp" />
+    <ClCompile Include="RrConfig.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserOperation.cpp" />
     <ClCompile Include="Video.cpp" />
@@ -123,6 +125,7 @@
     <ClInclude Include="CFileCheckTask.h" />
     <ClInclude Include="CFileUploadTask.h" />
     <ClInclude Include="CLoginTask.h" />
+    <ClInclude Include="COffLineTask.h" />
     <ClInclude Include="CParkingInfoTask.h" />
     <ClInclude Include="CReadShmTask.h" />
     <ClInclude Include="CTaskFactory.h" />
@@ -148,11 +151,15 @@
     <ClInclude Include="PPViewOperation.h" />
     <ClInclude Include="protocol.h" />
     <ClInclude Include="RegisterTask.h" />
+    <ClInclude Include="RrConfig.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserOperation.h" />
     <ClInclude Include="Video.h" />
     <ClInclude Include="VideoOperation.h" />
     <ClInclude Include="VpView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\x64\Debug\config.ini" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

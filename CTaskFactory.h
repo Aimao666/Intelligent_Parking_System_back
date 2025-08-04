@@ -15,6 +15,7 @@
 #include "CVideoListTask.h"
 #include "CUploadPlayinfoTask.h"
 #include "CParkingInfoTask.h"
+#include "COffLineTask.h"
 using namespace std;
 class CTaskFactory
 {

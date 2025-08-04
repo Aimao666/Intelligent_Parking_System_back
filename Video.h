@@ -18,6 +18,8 @@ private:
 	string createtime;//创建时间
     string pname;//视频名称
     string ppath;//视频在客户端存储路径
+    string create_date;//创建日期
+    string create_month;//创建月份
 
 public:
     int getId() const;
@@ -46,6 +48,12 @@ public:
 
     string getPpath() const;
     void setPpath(string ppath);
+
+    string getCreatedate() const;
+    void setCreatedate(string createdate);
+
+    string getCreatemonth() const;
+    void setCreatemonth(string createmonth);
 
 };
 

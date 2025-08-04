@@ -100,3 +100,23 @@ void Video::setPpath(string ppath)
     this->ppath = ppath;
 }
 
+string Video::getCreatedate() const
+{
+    return create_date;
+}
+
+void Video::setCreatedate(string createdate)
+{
+    create_date = createdate;
+}
+
+string Video::getCreatemonth() const
+{
+    return create_month;
+}
+
+void Video::setCreatemonth(string createmonth)
+{
+    create_month = createmonth;
+}
+

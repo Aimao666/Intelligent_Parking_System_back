@@ -109,6 +109,12 @@ void VideoOperation::fillObjectFromResultSet(sql::ResultSet* rs, void* object)
         else if (colName == "createtime") {
             ptr->setCreatetime(rs->getString(i));
         }
+        else if (colName == "create_date") {
+            ptr->setCreatedate(rs->getString(i));
+        }
+        else if (colName == "create_month") {
+            ptr->setCreatemonth(rs->getString(i));
+        }
         else {
             std::cerr << "VideoOperation Unknown column: " << colName << std::endl;
         }

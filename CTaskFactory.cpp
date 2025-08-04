@@ -82,6 +82,11 @@ unique_ptr<CBaseTask> CTaskFactory::createTask(int clientFd, int bussinessType, 
 		unique_ptr<CUpdateCarNumberTask> task(new CUpdateCarNumberTask(clientFd, data, length));
 		return task;
 	}
+	case 31://客户端下线
+	{
+		unique_ptr<COffLineTask> task(new COffLineTask(clientFd, data, length));
+		return task;
+	}
 	default:
 		cout << "CTaskFactory未知的case:" << bussinessType << endl;
 		break;

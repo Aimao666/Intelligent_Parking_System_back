@@ -47,12 +47,6 @@
     <ClCompile Include="CTools.cpp">
       <Filter>tools</Filter>
     </ClCompile>
-    <ClCompile Include="DataManager.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="FileInfo.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
     <ClCompile Include="Picture.cpp">
       <Filter>poco</Filter>
     </ClCompile>
@@ -113,6 +107,18 @@
     <ClCompile Include="PPViewOperation.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="FileInfo.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="COffLineTask.cpp">
+      <Filter>task</Filter>
+    </ClCompile>
+    <ClCompile Include="RrConfig.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -162,12 +168,6 @@
     </ClInclude>
     <ClInclude Include="CTools.h">
       <Filter>tools</Filter>
-    </ClInclude>
-    <ClInclude Include="DataManager.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="FileInfo.h">
-      <Filter>data</Filter>
     </ClInclude>
     <ClInclude Include="Picture.h">
       <Filter>poco</Filter>
@@ -229,6 +229,18 @@
     <ClInclude Include="PPViewOperation.h">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="FileInfo.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="COffLineTask.h">
+      <Filter>task</Filter>
+    </ClInclude>
+    <ClInclude Include="RrConfig.h">
+      <Filter>tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">
@@ -243,8 +255,8 @@
     <Filter Include="tools">
       <UniqueIdentifier>{9ebb4565-93cc-458d-8378-d1a63f66e1fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data">
-      <UniqueIdentifier>{bb8ada83-075f-4075-ba73-7ca7a9286f8f}</UniqueIdentifier>
-    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\x64\Debug\config.ini" />
   </ItemGroup>
 </Project>

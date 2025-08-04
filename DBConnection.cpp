@@ -2,6 +2,12 @@
 DBConnection* DBConnection::instance=nullptr;
 pthread_mutex_t DBConnection::mutex;
 pthread_mutex_t DBConnection::createMutex;
+string DBConnection::localhost;//连接远程数据库ip地址，因为代码在服务器运行所以是127
+string DBConnection::localuser;//数据库账户
+string DBConnection::localpassword;//数据库密码
+string DBConnection::localschema;//数据库逻辑容器
+string DBConnection::localport;//数据库端口号
+string DBConnection::hostname;
 DBConnection* DBConnection::getInstance()
 {
     //线程锁，保证饿汉式线程安全
@@ -17,7 +23,7 @@ DBConnection* DBConnection::getInstance()
 DBConnection::DBConnection()
 {
     pthread_mutex_init(&mutex, NULL);
-    pthread_mutex_init(&createMutex, NULL);
+    pthread_mutex_init(&createMutex, NULL); 
     //获取驱动单例
     this->driver = sql::mysql::get_driver_instance();
     this->path = "tcp://" + localhost + ":" + localport+"?useUnicode=true&characterEncoding=UTF-8";
@@ -45,5 +51,31 @@ void DBConnection::disConnection()
         this->conn->close();
         this->conn.reset();//‌无参数调用‌：释放当前资源并将内部指针置为nullptr。
     }
+}
+
+int DBConnection::loadConfig(std::string configPath)
+{
+    char path[256];
+    cout << "pwd=" << getcwd(path, 256) << endl;
+    rr::RrConfig config;
+    bool ret = config.ReadConfig(configPath);
+    if (ret == false) {
+        printf("ReadConfig is Error,Cfg=%s", configPath.c_str());
+        return 0;
+    }
+    localhost = config.ReadString("MYSQL", "localhost", "");
+    localuser = config.ReadString("MYSQL", "localuser", "");
+    localpassword = config.ReadString("MYSQL", "localpassword", "");
+    localschema = config.ReadString("MYSQL", "localschema", "");
+    localport = config.ReadString("MYSQL", "localport", "");
+    hostname = config.ReadString("MYSQL", "hostname", "");
+
+    std::cout << "localhost=" << localhost << std::endl;
+    std::cout << "localuser=" << localuser << std::endl;
+    std::cout << "localpassword=" << localpassword << std::endl;
+    std::cout << "localschema=" << localschema << std::endl;
+    std::cout << "localport=" << localport << std::endl;
+    std::cout << "hostname=" << hostname << std::endl;
+    return 1;
 }
 

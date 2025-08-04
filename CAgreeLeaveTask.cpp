@@ -11,7 +11,6 @@ void CAgreeLeaveTask::work()
 	cout << "CAgreeLeaveTask正在执行" << endl;
 	//数据解析
 	AgreeLeaveRequest request;
-	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), head.bussinessLength);
 
 
