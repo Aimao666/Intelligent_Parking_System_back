@@ -3,6 +3,7 @@ const std::string CTools::SAFE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 "abcdefghijklmnopqrstuvwxyz"
 "0123456789"
 "-_.~";
+//递归的创建文件目录
 bool CTools::createDirectoryRecursive(const std::string& path, mode_t mode)
 {
     size_t pos = 0;

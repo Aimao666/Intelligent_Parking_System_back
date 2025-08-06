@@ -48,7 +48,7 @@ void CVideoDateTask::work()
     delete pstmt;
     pthread_mutex_unlock(&DBConnection::mutex);
     cout << "+++++CVideoDateBack详细信息+++++" << endl;
-    cout << "count=" << bodyBack.count << " queryFlag = " << bodyBack.queryFlag << endl;
+    cout << "有效数据个数=" << bodyBack.count << " queryFlag = " << bodyBack.queryFlag << endl;
     cout << "year=" << bodyBack.year << endl;
 
     //准备数据缓冲区
@@ -57,4 +57,40 @@ void CVideoDateTask::work()
     memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
     //数据存放共享内存
     IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+
+    // 请求日志记录
+    {
+        std::ostringstream logStream;
+        std::string currentTime = CTools::getDatetime();
+
+        logStream << "时间：" << currentTime << "\n"
+            << "功能：获取存在的视频日期\n"
+            << "类型：请求\n"
+            << "用户账号：" << request.account << "\n"
+            << "年份：" << request.year << "\n"
+            << "查询标志0按天查，1按月查：" << request.queryFlag << "\n";
+
+        DataManager::writeLog(request.account, logStream.str(), currentTime);
+    }
+
+    // 响应日志记录
+    {
+        std::ostringstream logStream;
+        std::string currentTime = CTools::getDatetime();
+
+        logStream << "时间：" << currentTime << "\n"
+            << "功能：获取存在的视频日期\n"
+            << "类型：响应\n"
+            << "用户账号：" << request.account << "\n"
+            << "年份：" << bodyBack.year << "\n"
+            << "查询标志0按天查，1按月查：" << bodyBack.queryFlag << "\n"
+            << "有效数据个数：" << bodyBack.count << "\n"
+            << "数据列表：\n";
+
+        for (int i = 0; i < bodyBack.count; ++i) {
+            logStream << bodyBack.dates[i] << "\n";
+        }
+
+        DataManager::writeLog(request.account, logStream.str(), currentTime);
+    }
 }

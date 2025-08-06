@@ -84,4 +84,48 @@ void CVideoListTask::work()
     memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
     //数据存放共享内存
     IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+
+    // 日志记录 - 请求部分
+    {
+        std::ostringstream logStream;
+        std::string currentTime = CTools::getDatetime();
+
+        logStream << "时间：" << currentTime << "\n"
+            << "功能：获取视频列表\n"
+            << "类型：请求\n"
+            << "用户账号：" << request.account << "\n"
+            << "目标请求页：" << request.requestPage << "\n"
+            << "查询标志0按天查，1按月查：" << request.queryFlag << "\n"
+            << "查询时间：" << request.dateTime << "\n";
+
+        DataManager::writeLog(request.account, logStream.str(), currentTime);
+    }
+
+    // 日志记录 - 响应部分
+    {
+        std::ostringstream logStream;
+        std::string currentTime = CTools::getDatetime();
+
+        logStream << "时间：" << currentTime << "\n"
+            << "功能：获取视频列表\n"
+            << "类型：响应\n"
+            << "用户账号：" << request.account << "\n"
+            << "总页数：" << bodyBack.totalPage << "\n"
+            << "有效数据个数：" << bodyBack.num << "\n"
+            << "数据列表：\n";
+
+        for (int i = 0; i < bodyBack.num; ++i) {
+            const VideoData& video = bodyBack.videoDataArr[i];
+
+            logStream << "视频id：" << video.videoId << "\n"
+                << "  视频总时长：" << video.totaltime << "\n"
+                << "  视频名称：" << video.vname << "\n"
+                << "  视频路径：" << video.videoPath << "\n"
+                << "  上次播放时长：" << video.currentPlaytime << "\n"
+                << "  视频创建时间：" << video.createtime << "\n"
+                << "  视频首帧图片路径：" << video.picturePath << "\n\n";
+        }
+
+        DataManager::writeLog(request.account, logStream.str(), currentTime);
+    }
 }

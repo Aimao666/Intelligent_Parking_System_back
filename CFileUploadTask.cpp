@@ -10,7 +10,7 @@ CFileUploadTask::CFileUploadTask(int fd, char* data, size_t len)
 //文件上传业务，接收一个文件碎片
 void CFileUploadTask::work()
 {
-	cout << "CFileUploadTask正在执行" << endl;
+	cout << "CFileUploadTask文件碎片上传" << endl;
 	FileInfoRequest request;
 	memcpy(&head, taskData, sizeof(HEAD));
 	memcpy(&request, taskData + sizeof(HEAD), sizeof(request));
@@ -54,4 +54,25 @@ void CFileUploadTask::work()
 		cout << fileInfo->getFilename() << "文件序号:" << resPair.first->first << "保存失败，已存在，原先保存字节长度:" <<
 			resPair.first->second.size() << endl;
 	}
+
+	// 请求日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：文件碎片上传\n"
+			<< "类型：请求\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "文件名称：" << request.filename << "\n"
+			<< "文件客户端路径：" << request.khdPath << "\n"
+			<< "文件总碎片个数：" << request.totalNumber << "\n"
+			<< "文件总大小：" << request.totalLength << "\n"
+			<< "文件创建时间：" << request.createtime << "\n"
+			<< "文件类型1入场2出场3截图：" << request.type << "\n"
+			<< "文件序号：" << request.fileIndex << "\n"
+			<< "碎片有效长度：" << request.fileLength << "\n";
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
+
 }

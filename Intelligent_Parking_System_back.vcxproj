@@ -82,6 +82,7 @@
     <ClCompile Include="CCarLeaveTask.cpp" />
     <ClCompile Include="CFileCheckTask.cpp" />
     <ClCompile Include="CFileUploadTask.cpp" />
+    <ClCompile Include="CHeartServerTask.cpp" />
     <ClCompile Include="CLoginTask.cpp" />
     <ClCompile Include="COffLineTask.cpp" />
     <ClCompile Include="CParkingInfoTask.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="CCarLeaveTask.h" />
     <ClInclude Include="CFileCheckTask.h" />
     <ClInclude Include="CFileUploadTask.h" />
+    <ClInclude Include="CHeartServerTask.h" />
     <ClInclude Include="CLoginTask.h" />
     <ClInclude Include="COffLineTask.h" />
     <ClInclude Include="CParkingInfoTask.h" />

@@ -43,4 +43,32 @@ void CLoginTask::work()
 	memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
 	//数据存放共享内存
 	IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+
+	// 请求日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：登录\n"
+			<< "类型：请求\n"
+			<< "用户账号：" << request.account << "\n";
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
+
+	// 响应日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：登录\n"
+			<< "类型：响应\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "结果标志：" << bodyBack.flag << "\n"
+			<< "说明：" << bodyBack.message << "\n";
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
 }

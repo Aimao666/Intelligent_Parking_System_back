@@ -82,6 +82,11 @@ unique_ptr<CBaseTask> CTaskFactory::createTask(int clientFd, int bussinessType, 
 		unique_ptr<CUpdateCarNumberTask> task(new CUpdateCarNumberTask(clientFd, data, length));
 		return task;
 	}
+	case 29://心跳服务
+	{
+		unique_ptr<CHeartServerTask> task(new CHeartServerTask(clientFd, data, length));
+		return task;
+	}
 	case 31://客户端下线
 	{
 		unique_ptr<COffLineTask> task(new COffLineTask(clientFd, data, length));

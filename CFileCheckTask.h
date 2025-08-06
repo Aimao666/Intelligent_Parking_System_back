@@ -16,6 +16,8 @@ private:
 	int checkFile(FileInfo* fileInfo);
 	// 通过 CBaseTask 继承
 	virtual void work() override;
-	FileSuccessBack bodyBack;
+	FileBack bodyBack1;
+	FileSuccessBack bodyBack2;
+	FileCheckRequest request;
 };
 

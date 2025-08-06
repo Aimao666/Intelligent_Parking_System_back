@@ -8,12 +8,13 @@
 #include "DataManager.h"
 int main()
 {
-    pthread_mutex_init(&DataManager::allFileMapMutex,NULL);
+    pthread_mutex_init(&DataManager::allFileMapMutex,NULL); 
+    pthread_mutex_init(&DataManager::writeLogMutex, NULL);
     if (!DBConnection::loadConfig("config.ini")) {
         cerr << "配置文件加载失败" << endl;
         return 0;
     }
-
+    cout << "日志文件：" << CTools::getDatetime("%Y-%m-%d.txt") << endl;
     CThreadPool* pool = CThreadPool::getInstance();
     IPCManager* ipc = IPCManager::getInstance();
     cout << "sizeof(IPCManager)=" << sizeof(IPCManager) << endl;//36，只计入非静态成员变量的大小，所有函数都不计入

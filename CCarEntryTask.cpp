@@ -98,7 +98,7 @@ void CCarEntryTask::work()
 	bodyBack.remainNum = remainingSpaces;
 	bodyBack.currentNum = occupiedSpaces;
 	cout << "+++++++CarEntryBack详细信息+++++++" << endl;
-	cout << "validNum=" << bodyBack.validNum << endl;
+	cout << "有效数据个数=" << bodyBack.validNum << endl;
 	cout << "剩余车位数=" << remainingSpaces << endl;
 	cout << "当前场内车辆数=" << occupiedSpaces << endl;
 	cout << "++++++++++++++++++++" << endl;
@@ -108,4 +108,45 @@ void CCarEntryTask::work()
 	memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
 	//数据存放共享内存
 	IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+
+	// 请求日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：车辆入场\n"
+			<< "类型：请求\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "入场时间：" << request.entryTime << "\n"
+			<< "车牌号：" << request.carNumber << "\n"
+			<< "入场位置：" << request.entryPosition << "\n";
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
+
+	// 响应日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：车辆入场\n"
+			<< "类型：响应\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "当前场内车辆数：" << occupiedSpaces << "\n"
+			<< "剩余车位数：" << remainingSpaces << "\n"
+			<< "有效数据个数：" << bodyBack.validNum << "\n"
+			<< "数据列表：\n";
+
+		for (int i = 0; i < bodyBack.validNum; ++i) {
+			const auto& entry = bodyBack.carEntryArr[i];
+			logStream << "id：" << entry.id << "\n"
+				<< "  车牌号：" << entry.carNumber << "\n"
+				<< "  入场位置：" << entry.entryPosition << "\n"
+				<< "  入场时间：" << entry.entryTime << "\n\n";
+		}
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
 }

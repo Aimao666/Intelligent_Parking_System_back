@@ -98,4 +98,52 @@ void CParkingInfoTask::work()
 	memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
 	//数据存放共享内存
 	IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+
+	// 日志记录 - 请求部分
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：获取视频列表\n"
+			<< "类型：请求\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "目标请求页：" << request.currentPage << "\n"
+			<< "车牌号：" << request.carNumber << "\n"
+			<< "入场时间：" << request.entryTime << "\n"
+			<< "出场时间：" << request.leaveTime << "\n";
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
+
+	// 日志记录 - 响应部分
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：获取视频列表\n"
+			<< "类型：响应\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "总页数：" << bodyBack.totalPage << "\n"
+			<< "有效数据个数：" << bodyBack.num << "\n"
+			<< "数据列表：\n";
+
+		for (int i = 0; i < bodyBack.num; ++i) {
+			const ParkingInfoData& pinfo = bodyBack.parkingInfoDataArr[i];
+
+			logStream << "停车记录id：" << pinfo.id << "\n"
+				<< "  车牌号：" << pinfo.carNumber << "\n"
+				<< "  入场图片名称：" << pinfo.entryPicName << "\n"
+				<< "  入场图片路径：" << pinfo.entryPicPath << "\n"
+				<< "  出场图片名称：" << pinfo.leavePicName << "\n"
+				<< "  出场图片路径：" << pinfo.leavePicPath << "\n"
+				<< "  入场时间：" << pinfo.entryTime << "\n"
+				<< "  出场时间：" << pinfo.leaveTime << "\n"
+				<< "  应付金额：" << pinfo.dueCost << "\n"
+				<< "  实付金额：" << pinfo.reallyCost << "\n";
+		}
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
 }

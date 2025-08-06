@@ -119,6 +119,7 @@
     <ClCompile Include="RrConfig.cpp">
       <Filter>tools</Filter>
     </ClCompile>
+    <ClCompile Include="CHeartServerTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="User.h">
@@ -241,6 +242,7 @@
     <ClInclude Include="RrConfig.h">
       <Filter>tools</Filter>
     </ClInclude>
+    <ClInclude Include="CHeartServerTask.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="poco">

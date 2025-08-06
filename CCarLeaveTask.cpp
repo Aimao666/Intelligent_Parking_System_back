@@ -115,4 +115,39 @@ void CCarLeaveTask::work()
 	memcpy(buffer + sizeof(HEAD), &bodyBack, sizeof(bodyBack));
 	//数据存放共享内存
 	IPCManager::getInstance()->saveData(buffer, sizeof(buffer), 2);
+
+	// 请求日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：车辆出场停车时长\n"
+			<< "类型：请求\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "出场时间：" << request.leaveTime << "\n"
+			<< "车牌号：" << request.carNumber << "\n"
+			<< "出场位置：" << request.leavePosition << "\n";
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
+
+	// 响应日志记录
+	{
+		std::ostringstream logStream;
+		std::string currentTime = CTools::getDatetime();
+
+		logStream << "时间：" << currentTime << "\n"
+			<< "功能：车辆出场停车时长\n"
+			<< "类型：响应\n"
+			<< "用户账号：" << request.account << "\n"
+			<< "入场时间：" << bodyBack.entryTime << "\n"
+			<< "车牌号：" << request.carNumber << "\n"
+			<< "停车时长（秒数）：" << bodyBack.mesc << "\n"
+			<< "应收金额：" << bodyBack.dueCost << "\n"
+			<< "当前场内车辆数：" << occupiedSpaces << "\n"
+			<< "剩余车位数：" << remainingSpaces << "\n";
+
+		DataManager::writeLog(request.account, logStream.str(), currentTime);
+	}
 }
