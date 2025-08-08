@@ -36,6 +36,8 @@ DBConnection::DBConnection()
 }
 DBConnection::~DBConnection()
 {
+    pthread_mutex_destroy(&mutex);
+    pthread_mutex_destroy(&createMutex);
     disConnection();
 }
 

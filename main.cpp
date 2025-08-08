@@ -69,6 +69,8 @@ int main()
         //}
         //ipc->sem_v(semid, index);
     }
-    //shmdt(shmaddr);
+
+    pthread_mutex_destroy(&DataManager::allFileMapMutex);
+    pthread_mutex_destroy(&DataManager::writeLogMutex);
     return 0;
 }

@@ -22,9 +22,10 @@ int DataManager::writeLog(string account, string info, string createtime, string
 		return 0;
 	}
 	else {
-		int res = write(wfd, info.c_str(), info.size());
+		string logstr = "+++++++++++++++++++++\n" + info;
+		int res = write(wfd, logstr.c_str(), logstr.size());
 		pthread_mutex_unlock(&writeLogMutex);
-		if (res == info.size()) {
+		if (res == logstr.size()) {
 			cout << "日志写入完毕" << endl;
 			//插入数据库
 			LogInfo log(account,info, createtime);
@@ -42,7 +43,7 @@ int DataManager::writeLog(string account, string info, string createtime, string
 		}
 		else {
 			perror("write err");
-			cerr << "写入日志失败或者写入信息不全res=" << res << ",期望写入" << info.size() << endl;
+			cerr << "写入日志失败或者写入信息不全res=" << res << ",期望写入" << logstr.size() << endl;
 			close(wfd);
 			return 0;
 		}

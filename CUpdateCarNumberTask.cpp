@@ -43,7 +43,7 @@ void CUpdateCarNumberTask::work()
 		std::string currentTime = CTools::getDatetime();
 
 		logStream << "时间：" << currentTime << "\n"
-			<< "功能：上传视频录制信息\n"
+			<< "功能：修改车牌\n"
 			<< "类型：请求\n"
 			<< "用户账号：" << request.account << "\n"
 			<< "入场时间：" << request.entryTime << "\n"
