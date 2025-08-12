@@ -8,13 +8,18 @@ LogOperation::LogOperation()
 int LogOperation::doInsert(void* object)
 {
     LogInfo* ptr = static_cast<LogInfo*>(object);
-    string sql = "insert into " + tablename + " (`account`,`info`,`createtime`)" +
-        "values (?,?,?)";
+    string sql;
+    if (ptr->getAccount() == "") {
+        sql = "insert into " + tablename + " (`info`,`createtime`) values (?,?)";
+    }
+    else {
+        sql = "insert into " + tablename + " (`info`,`createtime`,`account`) values (?,?,?)";
+    }
     pthread_mutex_lock(&DBConnection::mutex);
     PreparedStatement* pstmt = conn->prepareStatement(sql);
-    pstmt->setString(1, ptr->getAccount());
-    pstmt->setString(2, ptr->getInfo());
-    pstmt->setString(3, ptr->getCreatetime());
+    pstmt->setString(1, ptr->getInfo());
+    pstmt->setString(2, ptr->getCreatetime());
+    if (ptr->getAccount() != "")pstmt->setString(3, ptr->getAccount());
     conn->setAutoCommit(false);//开启事务
     int rs = 0;
     try {

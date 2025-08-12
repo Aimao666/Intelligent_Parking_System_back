@@ -5,7 +5,7 @@ class User
 {
 public:
 
-    User(string account = "", string password = "", int totalNum = 2000);
+    User(string account = "", string password = "", int totalNum = 2000);//默认2000个停车位
 	~User()=default;
 private:
 	string account;
